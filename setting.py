@@ -1,0 +1,4 @@
+
+settings = {
+    'test': 'Hello World!',
+}

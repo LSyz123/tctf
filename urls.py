@@ -1,8 +1,8 @@
-from handler.index import IndexHandler
-from handler.user import LoginHandler, SignupHandler, UserInfoHandler
-from handler.rank import RankHandler
-from handler.team import TeamHandler
-from handler.chanllage import ChanllageHandler
+from handlers.index import IndexHandler
+from handlers.user import LoginHandler, SignupHandler, UserInfoHandler
+from handlers.rank import RankHandler
+from handlers.team import TeamHandler
+from handlers.chanllage import ChanllageHandler
 from tornado import web
 
 urls = [
