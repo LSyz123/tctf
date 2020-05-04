@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="{{ static_url("css/bootstrap.min.css") }}" rel="stylesheet">
+    <title>{{ title }} - {{ module }}</title>
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#TaoistsNavBar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="TaoistsNavBar">
+                <ul class="nav navbar-nav">
+                    <li {% try %}{% if team %}class="active"{% end %}{% except %}{% end %}><a href="/team/">队伍</a></li>
+                    <li {% try %}{% if chanllage %}class="active"{% end %}{% except %}{% end %}><a href="/chanllage/">赛题</a></li>
+                    <li {% try %}{% if rank %}class="active"{% end %}{% except %}{% end %}><a href="/rank/">排行榜</a></li>
+                </ul>
+                <div class="profile navbar-right">
+                    {% if not logined %}
+                    <ul class="nav navbar-nav">
+                        <li><a data-toggle="modal" data-target="#login" href="">登录</a></li>
+                        <li><a data-toggle="modal" data-target="#register" href="">注册</a></li>
+                    </ul>
+                    {% else %}
+                    <p class="navbar-text">您好，<a href="/user/{{ username }}" class="navbar-link">{{ username }}</a></p>
+                    {% end %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="register" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button class="close" data-dismiss="modal">
+                        <span>×</span>
+                    </button>
+                </div>
+                <div class="modal-title">
+                    <h1 class="text-center">注册</h1>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" action="/signup/" method="post">
+                            <div class="form-group">
+                                <label for="">用户名</label>
+                                <input class="form-control" type="text" name="username" placeholder="6-15位字母或数字">
+                            </div>
+                            <div class="form-group">
+                                <label for="">密码</label>
+                                <input class="form-control" type="password" name="password" placeholder="至少6位字母或数字">
+                            </div>
+                            <div class="form-group">
+                                <label for="">再次输入密码</label>
+                                <input class="form-control" type="password" name="password_check" placeholder="至少6位字母或数字">
+                            </div>
+                            <div class="form-group">
+                                <label for="">邮箱</label>
+                                <input class="form-control" type="email" name="email" placeholder="例如:123@123.com">
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary" type="submit">提交</button>
+                                <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                            </div>
+                            <a href="" data-toggle="modal" data-dismiss="modal" data-target="#login">已有账号？点我登录</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="login" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button class="close" data-dismiss="modal">
+                        <span>×</span>
+                    </button>
+                </div>
+                <div class="modal-title">
+                    <h1 class="text-center">登录</h1>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" action="/login/" method="post">
+                            <div class="form-group">
+                                <label for="">用户名</label>
+                                <input class="form-control" type="text" name="username" placeholder="">
+                            </div>
+                            <div class="form-group">
+                                <label for="">密码</label>
+                                <input class="form-control" type="password" name="password" placeholder="">
+                            </div>
+                            <div class="text-right">
+                                <button class="btn btn-primary" type="submit">登录</button>
+                                <button class="btn btn-danger" data-dismiss="modal">取消</button>
+                            </div>
+                            <a href="" data-toggle="modal" data-dismiss="modal" data-target="#register">还没有账号？点我注册</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% block body%}
+        {% end %}
+    </div>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div style="text-align:center">
+            <h4>Powered by 言子小宝宝</h4>
+        </div>
+    </nav>
+
+    <script src="{{ static_url("js/jquery.min.js") }}"></script>
+    <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
+</body>
+</html>

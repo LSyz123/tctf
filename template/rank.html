@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>团队名</th>
+                <th>分数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ items.index(item) + 1 }}</td>
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+            </tr>
+            {% end %}
+        </tbody>
+    </table>
+{% end %}
