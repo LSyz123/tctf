@@ -125,9 +125,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-.idea/.gitignore
-.idea/inspectionProfiles/
-.idea/misc.xml
-.idea/modules.xml
-.idea/tctf.iml
-.idea/vcs.xml
+.idea/
