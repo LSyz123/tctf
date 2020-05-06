@@ -4,10 +4,10 @@ from peewee import *
 
 
 class SystemModel(BaseModel):
-    name = CharField(max_length=255, verbose_name='name')
-    game_mode = BooleanField(verbose_name='Game mode', default=False)
-    start = DateField(verbose_name='Start time')
-    end = DateField(verbose_name='End time')
+    name = CharField(max_length=255, verbose_name='系统名称')
+    game_mode = BooleanField(verbose_name='比赛模式', default=False)
+    start = DateField(verbose_name='开始时间')
+    end = DateField(verbose_name='结束时间')
 
     class Meta:
         table_name = 'system'

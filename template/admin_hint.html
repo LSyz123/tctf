@@ -1,7 +1,7 @@
 {% extends 'admin_base.html' %}
 
 {% block Admin %}
-    <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addhint" href="">Add Hint</button></p>
+    <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addhint" href="">添加提示</button></p>
     <div id="addhint" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -11,12 +11,12 @@
                     </button>
                 </div>
                 <div class="modal-title">
-                    <h1 class="text-center">Add Hint</h1>
+                    <h1 class="text-center">添加提示</h1>
                 </div>
                 <div class="modal-body">
                     <form class="form-group" action="/admin/hint/add/" method="post">
                             <div class="form-group">
-                                <label for="">Chanllage</label>
+                                <label for="">赛题</label>
                                 <select name="chanllage" class="form-control">
                                     {% for chanllage in chanllages %}
                                     <option value="{{ chanllage }}">{{ chanllage }}</option>
@@ -24,11 +24,11 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="">message</label>
+                                <label for="">提示信息</label>
                                 <input class="form-control" type="text" name="message" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="">sub_rank</label>
+                                <label for="">消费分数</label>
                                 <input class="form-control" type="text" name="sub_rank" placeholder="">
                             </div>
                             <div class="text-right">
@@ -44,10 +44,10 @@
 <table class="table table-hover">
         <thead>
             <tr>
-                <th style="vertical-align: middle;text-align: center;">Chanllage</th>
-                <th style="vertical-align: middle;text-align: center;">Message</th>
-                <th style="vertical-align: middle;text-align: center;">Rank</th>
-                <th style="vertical-align: middle;text-align: center;">Delete</th>
+                <th style="vertical-align: middle;text-align: center;">赛题</th>
+                <th style="vertical-align: middle;text-align: center;">提示信息</th>
+                <th style="vertical-align: middle;text-align: center;">消费分数</th>
+                <th style="vertical-align: middle;text-align: center;">删除</th>
             </tr>
         </thead>
         <tbody>
@@ -56,7 +56,7 @@
                 <td style="vertical-align: middle;text-align: center;">{{ item[0] }}</td>
                 <td style="vertical-align: middle;text-align: center;">{{ item[1] }}</td>
                 <td style="vertical-align: middle;text-align: center;">{{ item[2] }}</td>
-                <td style="vertical-align: middle;text-align: center;"><a href="/admin/hint/del/{{ item[0] }}">Delete</a></td>
+                <td style="vertical-align: middle;text-align: center;"><a href="/admin/hint/del/{{ item[0] }}">删除</a></td>
             </tr>
             {% end %}
         </tbody>

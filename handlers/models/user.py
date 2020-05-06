@@ -36,11 +36,11 @@ class PasswordField(BlobField):
 
 
 class UserModel(BaseModel):
-    username = CharField(max_length=50, verbose_name='Username')
-    password = PasswordField(verbose_name='Password')
-    email = CharField(max_length=50, verbose_name='Email')
-    admin = BooleanField(verbose_name='Admin', default=False)
-    rank = IntegerField(verbose_name='Rank', default=0)
+    username = CharField(max_length=50, verbose_name='用户名')
+    password = PasswordField(verbose_name='密码')
+    email = CharField(max_length=50, verbose_name='邮箱')
+    admin = BooleanField(verbose_name='管理员', default=False)
+    rank = IntegerField(verbose_name='分数', default=0)
 
     class Meta:
         table_name = 'users'

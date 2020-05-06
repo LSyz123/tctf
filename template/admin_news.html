@@ -1,7 +1,7 @@
 {% extends 'admin_base.html' %}
 
 {% block Admin %}
-<p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addnews" href="">Add News</button></p>
+<p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addnews" href="">添加公告</button></p>
     <div id="addnews" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -11,12 +11,12 @@
                     </button>
                 </div>
                 <div class="modal-title">
-                    <h1 class="text-center">Add news</h1>
+                    <h1 class="text-center">添加公告</h1>
                 </div>
                 <div class="modal-body">
                     <form class="form-group" action="/admin/news/add/" method="post">
                             <div class="form-group">
-                                <label for="">message</label>
+                                <label for="">公告信息</label>
                                 <input class="form-control" type="text" name="message" placeholder="">
                             </div>
                             <div class="text-right">

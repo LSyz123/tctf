@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Name: {{ chanllage.name }}</h1>
-    <h2>Desc: {{ chanllage.describe }}</h2>
-    <h2>File: <a href="{{ download_link }}">Download</a></h2>
-    <h2>Link: <a href="{{ chanllage.link }}">Go</a></h2>
+    <h1>名称: {{ chanllage.name }}</h1>
+    <h2>描述: {{ chanllage.describe }}</h2>
+    <h2>赛题文件: <a href="{{ download_link }}">Download</a></h2>
+    <h2>赛题链接: <a href="{{ chanllage.link }}">Go</a></h2>
 
 
     <form action="/answer/{{ chanllage.name }}" method="post" class="form-row">
-        Flag: <input class="input" id="focusedInput" type="text" name="answer" placeholder="Flag">
-        <button type="submit" class="btn btn-default">Save</button>
+        答案: <input class="input" id="focusedInput" type="text" name="answer" placeholder="Flag">
+        <button type="submit" class="btn btn-default">保存</button>
     </form>
 
 {% end %}

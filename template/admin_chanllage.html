@@ -1,7 +1,7 @@
 {% extends 'admin_base.html' %}
 
 {% block Admin %}
-<p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addchanllage" href="">Add Chanllage</button></p>
+<p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addchanllage" href="">添加赛题</button></p>
 <div id="addchanllage" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -11,16 +11,16 @@
                     </button>
                 </div>
                 <div class="modal-title">
-                    <h1 class="text-center">Add chanllage</h1>
+                    <h1 class="text-center">添加赛题</h1>
                 </div>
                 <div class="modal-body">
                     <form class="form-group" enctype="multipart/form-data" action="/admin/chanllage/add/" method="post">
                             <div class="form-group">
-                                <label for="">name</label>
+                                <label for="">名称</label>
                                 <input class="form-control" type="text" name="name" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="">type_name</label>
+                                <label for="">类型</label>
                                 <select name="type_name" class="form-control">
                                     {% for type in types %}
                                     <option value="{{ type }}">{{ type }}</option>
@@ -28,34 +28,34 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="">describe</label>
+                                <label for="">描述</label>
                                 <input class="form-control" type="text" name="describe" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="">rank</label>
+                                <label for="">分数</label>
                                 <input class="form-control" type="text" name="rank" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="">low</label>
+                                <label for="">最低分</label>
                                 <input class="form-control" type="text" name="low" placeholder="">
                             </div><div class="form-group">
-                                <label for="">people</label>
+                                <label for="">分数递减人数</label>
                                 <input class="form-control" type="text" name="people" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="">answer</label>
+                                <label for="">答案</label>
                                 <input class="form-control" type="text" name="answer" placeholder="">
                             </div>
                             <div class="form-group">
-                                <label for="">file</label>
+                                <label for="">赛题文件</label>
                                 <input class="form-control" type="file" name="upload_file">
                             </div>
                             <div class="form-group">
-                                <label for="">link</label>
+                                <label for="">赛题链接</label>
                                 <input class="form-control" type="text" name="link" placeholder="">
                             </div>
                             <div class="text-right">
-                                <button class="btn btn-primary" type="submit">提交</button>
+                                <button class="btn btn-primary" type="submit">确认</button>
                                 <button class="btn btn-danger" data-dismiss="modal">取消</button>
                             </div>
                     </form>
@@ -66,10 +66,10 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th style="vertical-align: middle;text-align: center;">Name</th>
-            <th style="vertical-align: middle;text-align: center;">Describe</th>
-            <th style="vertical-align: middle;text-align: center;">Rank</th>
-            <th style="vertical-align: middle;text-align: center;">Delete</th>
+            <th style="vertical-align: middle;text-align: center;">名称</th>
+            <th style="vertical-align: middle;text-align: center;">描述</th>
+            <th style="vertical-align: middle;text-align: center;">分数</th>
+            <th style="vertical-align: middle;text-align: center;">删除</th>
         </tr>
     </thead>
     <tbody>
@@ -78,7 +78,7 @@
             <td style="vertical-align: middle;text-align: center;"><a href="/admin/chanllage/view/{{ item[0] }}">{{ item[0] }}</a></td>
             <td style="vertical-align: middle;text-align: center;">{{ item[1] }}</td>
             <td style="vertical-align: middle;text-align: center;">{{ item[2] }}</td>
-            <td style="vertical-align: middle;text-align: center;"><a href="/admin/chanllage/del/{{ item[0] }}">Delete</a></td>
+            <td style="vertical-align: middle;text-align: center;"><a href="/admin/chanllage/del/{{ item[0] }}">删除</a></td>
         </tr>
         {% end %}
     </tbody>

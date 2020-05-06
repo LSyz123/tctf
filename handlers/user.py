@@ -27,9 +27,9 @@ class LoginHandler(web.RequestHandler):
                                        algorithm=self.settings['secret_algorithm'])
                     self.set_cookie('token', token.decode('utf-8'))
                 else:
-                    self.redirect('/message/password error!')
+                    self.redirect('/message/用户名或密码错误!')
             else:
-                self.redirect('/message/user error!')
+                self.redirect('/message/用户名或密码错误!')
         else:
             self.redirect('/message/{}'.format(form_data.error))
 

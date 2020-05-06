@@ -1,7 +1,7 @@
 {% extends 'admin_base.html' %}
 
 {% block Admin %}
-    <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addtype" href="">Add Hint</button></p>
+    <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addtype" href="">添加赛题类型</button></p>
     <div id="addtype" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -11,12 +11,12 @@
                     </button>
                 </div>
                 <div class="modal-title">
-                    <h1 class="text-center">Add Type</h1>
+                    <h1 class="text-center">添加赛题类型</h1>
                 </div>
                 <div class="modal-body">
                     <form class="form-group" action="/admin/type/add/" method="post">
                             <div class="form-group">
-                                <label for="">name</label>
+                                <label for="">类型</label>
                                 <input class="form-control" type="text" name="name" placeholder="">
                             </div>
                             <div class="text-right">
@@ -32,15 +32,15 @@
 <table class="table table-hover">
         <thead>
             <tr>
-                <th style="vertical-align: middle;text-align: center;">type</th>
-                <th style="vertical-align: middle;text-align: center;">Delete</th>
+                <th style="vertical-align: middle;text-align: center;">类型</th>
+                <th style="vertical-align: middle;text-align: center;">删除</th>
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
             <tr>
                 <td style="vertical-align: middle;text-align: center;">{{ item }}</td>
-                <td style="vertical-align: middle;text-align: center;"><a href="/admin/type/del/{{ item }}">Delete</a></td>
+                <td style="vertical-align: middle;text-align: center;"><a href="/admin/type/del/{{ item }}">删除</a></td>
             </tr>
             {% end %}
         </tbody>

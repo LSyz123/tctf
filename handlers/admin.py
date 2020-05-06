@@ -44,21 +44,21 @@ class AdminUserAction(RequestHandler):
                 user = await self.application.objects.get(UserModel, username=username)
                 await self.application.objects.delete(user)
             except UserModel.DoesNotExist:
-                self.redirect('/message/No such user!')
+                self.redirect('/message/找不到该用户!')
         elif action == 'setadmin':
             try:
                 user = await self.application.objects.get(UserModel, username=username)
                 user.admin = True
                 await self.application.objects.update(user)
             except UserModel.DoesNotExist:
-                self.redirect('/message/No such user!')
+                self.redirect('/message/找不到该用户!')
         elif action == 'unsetadmin':
             try:
                 user = await self.application.objects.get(UserModel, username=username)
                 user.admin = False
                 await self.application.objects.update(user)
             except UserModel.DoesNotExist:
-                self.redirect('/message/No such user!')
+                self.redirect('/message/找不到该用户!')
         elif action == 'view':
             try:
                 user = await self.application.objects.get(UserModel, username=username)
@@ -73,7 +73,7 @@ class AdminUserAction(RequestHandler):
 
                 await self.render('admin_user_view.html', base=base_info, user=user)
             except UserModel.DoesNotExist:
-                self.redirect('/message/No such user!')
+                self.redirect('/message/找不到该用户!')
         if not self._finished:
             self.redirect('/admin/user/')
 
@@ -124,7 +124,7 @@ class AdminChanllageAction(RequestHandler):
                 chanllage = await self.application.objects.get(ChanllageModel, name=name)
                 await self.application.objects.delete(chanllage)
             except ChanllageModel.DoesNotExist:
-                self.redirect('/message/No such chanllage')
+                self.redirect('/message/找不到该赛题')
         elif action == 'view':
             try:
                 chanllage = await self.application.objects.get(ChanllageModel, name=name)
@@ -148,7 +148,7 @@ class AdminChanllageAction(RequestHandler):
                 await self.render('admin_chanllage_view.html', base=base_info, chanllage=chanllage, types=types,
                                   current_type=current_type.name)
             except ChanllageModel.DoesNotExist:
-                self.redirect('/message/No such chanllage')
+                self.redirect('/message/找不到该赛题')
         if not self._finished:
             self.redirect('/admin/chanllage/')
 
@@ -243,7 +243,7 @@ class AdminHintAction(RequestHandler):
                                                           message=payload.message.data,
                                                           sub_rank=payload.sub_rank.data)
                 except ChanllageModel.DoesNotExist:
-                    self.redirect('/message/No such chanllage')
+                    self.redirect('/message/找不到该赛题！')
         if not self._finished:
             self.redirect('/admin/hint/')
 
@@ -284,7 +284,7 @@ class AdminNewsAction(RequestHandler):
             else:
                 self.redirect('/message/{}'.format(payload.error))
         else:
-            self.redirect('/message/No such method: {}'.format(action))
+            self.redirect('/message/无效的方法: {}'.format(action))
 
         self.redirect('/admin/news/')
 

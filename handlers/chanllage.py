@@ -68,7 +68,7 @@ class ChanllageViewHandler(RequestHandler):
                               base=base_info, chanllage=chanllage,
                               download_link=download_link, hints=hints)
         except ChanllageModel.DoesNotExist:
-            self.redirect('/message/No such chanllage')
+            self.redirect('/message/找不到该赛题！')
         if not self._finished:
             self.redirect('/')
 
@@ -106,7 +106,7 @@ class AnswerHandler(RequestHandler):
             else:
                 self.redirect('/message/{}'.format(payload.error))
         except ChanllageModel.DoesNotExist:
-            self.redirect('/message/No such chanllage')
+            self.redirect('/message/找不到该赛题！')
 
         if not self._finished:
             self.redirect('/chanllage/')
@@ -133,8 +133,8 @@ class HintBuyHandler(RequestHandler):
                                                               user=self.current_user, event=event,
                                                               answer='', rank=hint.rank)
                 except ChanllageModel.DoesNotExist:
-                    self.redirect('/message/No such chanllage')
+                    self.redirect('/message/找不到该赛题！')
         except HintModel.DoesNotExist:
-            self.redirect('/message/No such hint')
+            self.redirect('/message/找不到该提示！')
         if not self._finished:
             self.redirect('/')

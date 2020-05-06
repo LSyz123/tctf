@@ -5,5 +5,4 @@ from wtforms.validators import DataRequired, Length
 
 class AnswerForm(Form):
     answer = StringField('answer', validators=[
-        DataRequired(message='Please input answer'),
-        Length(min=4, max=50, message='Invalid answer')])
+        DataRequired(message='请输入答案')])

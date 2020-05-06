@@ -3,13 +3,13 @@
 {% block Admin %}
     <form action="/admin/chanllage/update/{{ chanllage.name }}" method="post" class="form-horizontal">
         <div class="form-group">
-            <label class="col-sm-2 control-label">name</label>
+            <label class="col-sm-2 control-label">名称</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="text" name="name" value="{{ chanllage.name }}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">type</label>
+            <label class="col-sm-2 control-label">类型</label>
             <div class="col-sm-10">
                 <select name="type_name" class="form-control">
                     {% for type in types %}
@@ -19,50 +19,50 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">describe</label>
+            <label class="col-sm-2 control-label">描述</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="text" name="describe" value="{{ chanllage.describe }}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">rank</label>
+            <label class="col-sm-2 control-label">分数</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="text" name="rank" value="{{ chanllage.rank }}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">low</label>
+            <label class="col-sm-2 control-label">最低分</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="text" name="low" value="{{ chanllage.low }}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">people</label>
+            <label class="col-sm-2 control-label">递减分人数</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="text" name="people" value="{{ chanllage.people }}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">answer</label>
+            <label class="col-sm-2 control-label">答案</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="text" name="answer" value="{{ chanllage.answer }}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">file</label>
+            <label class="col-sm-2 control-label">赛题文件</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="file" name="upload_file" value="{{ chanllage.file }}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label">link</label>
+            <label class="col-sm-2 control-label">赛题链接</label>
             <div class="col-sm-10">
                 <input class="form-control" id="focusedInput" type="text" name="link" value="{{ chanllage.link }}">
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Save</button>
+                <button type="submit" class="btn btn-default">保存</button>
             </div>
         </div>
     </form>
