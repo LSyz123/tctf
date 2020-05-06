@@ -68,7 +68,7 @@ class ChanllageViewHandler(RequestHandler):
                               base=base_info, chanllage=chanllage,
                               download_link=download_link, hints=hints)
         except ChanllageModel.DoesNotExist:
-            pass
+            self.redirect('/message/No such chanllage')
         if not self._finished:
             self.redirect('/')
 
@@ -103,8 +103,10 @@ class AnswerHandler(RequestHandler):
                             await self.application.objects.create(RanklogModel, chanllage=chanllage,
                                                                   user=self.current_user, event=event,
                                                                   answer=payload.answer.data, rank=rank)
+            else:
+                self.redirect('/message/{}'.format(payload.error))
         except ChanllageModel.DoesNotExist:
-            pass
+            self.redirect('/message/No such chanllage')
 
         if not self._finished:
             self.redirect('/chanllage/')
@@ -131,8 +133,8 @@ class HintBuyHandler(RequestHandler):
                                                               user=self.current_user, event=event,
                                                               answer='', rank=hint.rank)
                 except ChanllageModel.DoesNotExist:
-                    pass
+                    self.redirect('/message/No such chanllage')
         except HintModel.DoesNotExist:
-            pass
+            self.redirect('/message/No such hint')
         if not self._finished:
             self.redirect('/')

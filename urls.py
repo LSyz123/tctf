@@ -1,9 +1,10 @@
 from handlers.index import IndexHandler
+from handlers.message import MessageHandler
 from handlers.user import LoginHandler, RegisterHandler, UserInfoHandler, UserLogoutHandler
 from handlers.rank import RankHandler
 from handlers.team import TeamHandler
 from handlers.admin import AdminUser, AdminChanllage, AdminHint, AdminNews, AdminSystem, AdminUserAction, \
-    AdminChanllageAction, AdminNewsAction, AdminHintAction, AdminType, AdminTypeAction
+    AdminChanllageAction, AdminNewsAction, AdminHintAction, AdminType, AdminTypeAction, AdminLog
 from handlers.chanllage import ChanllageHandler, ChanllageViewHandler, AnswerHandler
 from tornado import web
 
@@ -33,4 +34,6 @@ urls = [
     web.URLSpec(r'/admin/system/?', AdminSystem, name='AdminSystem'),
     web.URLSpec(r'/admin/type/?', AdminType, name='AdminType'),
     web.URLSpec(r'/admin/type/(\w+)/?', AdminTypeAction, name='AdminTypeAction'),
+    web.URLSpec(r'/admin/logs/', AdminLog, name='AdminLog'),
+    web.URLSpec(r'/message/(.*)/?', MessageHandler, name='message'),
 ]

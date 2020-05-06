@@ -2,7 +2,7 @@
 
 {% block Admin %}
 <p><button type="button" class="btn btn-info" data-toggle="modal" data-target="#addchanllage" href="">Add Chanllage</button></p>
-    <div id="addchanllage" class="modal fade" tabindex="-1">
+<div id="addchanllage" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -64,23 +64,23 @@
         </div>
     </div>
 <table class="table table-hover">
-        <thead>
-            <tr>
-                <th style="vertical-align: middle;text-align: center;">Name</th>
-                <th style="vertical-align: middle;text-align: center;">Describe</th>
-                <th style="vertical-align: middle;text-align: center;">Rank</th>
-                <th style="vertical-align: middle;text-align: center;">Delete</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in items %}
-            <tr>
-                <td style="vertical-align: middle;text-align: center;"><a href="/admin/chanllage/view/{{ item[0] }}">{{ item[0] }}</a></td>
-                <td style="vertical-align: middle;text-align: center;">{{ item[1] }}</td>
-                <td style="vertical-align: middle;text-align: center;">{{ item[2] }}</td>
-                <td style="vertical-align: middle;text-align: center;"><a href="/admin/chanllage/del/{{ item[0] }}">Delete</a></td>
-            </tr>
-            {% end %}
-        </tbody>
-    </table>
+    <thead>
+        <tr>
+            <th style="vertical-align: middle;text-align: center;">Name</th>
+            <th style="vertical-align: middle;text-align: center;">Describe</th>
+            <th style="vertical-align: middle;text-align: center;">Rank</th>
+            <th style="vertical-align: middle;text-align: center;">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td style="vertical-align: middle;text-align: center;"><a href="/admin/chanllage/view/{{ item[0] }}">{{ item[0] }}</a></td>
+            <td style="vertical-align: middle;text-align: center;">{{ item[1] }}</td>
+            <td style="vertical-align: middle;text-align: center;">{{ item[2] }}</td>
+            <td style="vertical-align: middle;text-align: center;"><a href="/admin/chanllage/del/{{ item[0] }}">Delete</a></td>
+        </tr>
+        {% end %}
+    </tbody>
+</table>
 {% end %}

@@ -1,6 +1,5 @@
 from tornado import web
 from handlers.forms.user import RegisterForm, LoginForm
-from handlers.models.message import MessageModel
 from handlers.models.user import UserModel
 from tools.auth_wrap import authenticated_async
 
@@ -27,8 +26,15 @@ class LoginHandler(web.RequestHandler):
                     token = jwt.encode(payload, self.settings['secret_key'],
                                        algorithm=self.settings['secret_algorithm'])
                     self.set_cookie('token', token.decode('utf-8'))
+                else:
+                    self.redirect('/message/password error!')
+            else:
+                self.redirect('/message/user error!')
+        else:
+            self.redirect('/message/{}'.format(form_data.error))
 
-        self.redirect('/')
+        if not self._finished:
+            self.redirect('/')
 
 
 class RegisterHandler(web.RequestHandler):
@@ -43,8 +49,11 @@ class RegisterHandler(web.RequestHandler):
                 await self.application.objects.get(UserModel, username=username)
             except UserModel.DoesNotExist:
                 await self.application.objects.create(UserModel, username=username, password=password, email=email)
+        else:
+            self.redirect('/message/{}'.format(form_data.error))
 
-        self.redirect('/')
+        if not self._finished:
+            self.redirect('/')
 
 
 class UserInfoHandler(web.RequestHandler):
@@ -52,7 +61,7 @@ class UserInfoHandler(web.RequestHandler):
     async def get(self):
         base_info = {'title': 'CTF',
                      'module': 'UserInfo',
-                     'logined': False}
+                     'logined': True}
         user = self.current_user
         await self.render('user.html', base=base_info, user=user)
 

@@ -1,12 +1,12 @@
 import os
 import time
-from datetime import datetime
 
 import aiofiles
 import random
 from tornado.web import RequestHandler
 from handlers.models.chanllage import ChanllageModel
 from handlers.models.hintmodel import HintModel
+from handlers.models.ranklog import RanklogModel
 from handlers.models.system import SystemModel
 from handlers.models.type import TypeModel
 from tools.auth_wrap import authenticated_isadmin_async
@@ -44,21 +44,21 @@ class AdminUserAction(RequestHandler):
                 user = await self.application.objects.get(UserModel, username=username)
                 await self.application.objects.delete(user)
             except UserModel.DoesNotExist:
-                pass
+                self.redirect('/message/No such user!')
         elif action == 'setadmin':
             try:
                 user = await self.application.objects.get(UserModel, username=username)
                 user.admin = True
                 await self.application.objects.update(user)
             except UserModel.DoesNotExist:
-                pass
+                self.redirect('/message/No such user!')
         elif action == 'unsetadmin':
             try:
                 user = await self.application.objects.get(UserModel, username=username)
                 user.admin = False
                 await self.application.objects.update(user)
             except UserModel.DoesNotExist:
-                pass
+                self.redirect('/message/No such user!')
         elif action == 'view':
             try:
                 user = await self.application.objects.get(UserModel, username=username)
@@ -73,9 +73,9 @@ class AdminUserAction(RequestHandler):
 
                 await self.render('admin_user_view.html', base=base_info, user=user)
             except UserModel.DoesNotExist:
-                pass
-
-        self.redirect('/admin/user/')
+                self.redirect('/message/No such user!')
+        if not self._finished:
+            self.redirect('/admin/user/')
 
     @authenticated_isadmin_async
     async def post(self, action):
@@ -124,7 +124,7 @@ class AdminChanllageAction(RequestHandler):
                 chanllage = await self.application.objects.get(ChanllageModel, name=name)
                 await self.application.objects.delete(chanllage)
             except ChanllageModel.DoesNotExist:
-                pass
+                self.redirect('/message/No such chanllage')
         elif action == 'view':
             try:
                 chanllage = await self.application.objects.get(ChanllageModel, name=name)
@@ -148,7 +148,7 @@ class AdminChanllageAction(RequestHandler):
                 await self.render('admin_chanllage_view.html', base=base_info, chanllage=chanllage, types=types,
                                   current_type=current_type.name)
             except ChanllageModel.DoesNotExist:
-                pass
+                self.redirect('/message/No such chanllage')
         if not self._finished:
             self.redirect('/admin/chanllage/')
 
@@ -188,13 +188,6 @@ class AdminChanllageAction(RequestHandler):
             payload = UpdateChanllageForm(self.request.arguments)
             if payload.validate():
                 try:
-                    base_info = {'title': 'CTF',
-                                 'module': 'Admin Chanllage',
-                                 'admin': True,
-                                 'chanllage_admin': True,
-                                 'isadmin': self.current_user.admin,
-                                 'username': self.current_user.username,
-                                 'logined': True}
                     chanllage = await self.application.objects.get(ChanllageModel, name=name)
                     chanllage.name = payload.name.data
                     chanllage.describe = payload.describe.data
@@ -250,9 +243,9 @@ class AdminHintAction(RequestHandler):
                                                           message=payload.message.data,
                                                           sub_rank=payload.sub_rank.data)
                 except ChanllageModel.DoesNotExist:
-                    pass
-
-        self.redirect('/admin/hint/')
+                    self.redirect('/message/No such chanllage')
+        if not self._finished:
+            self.redirect('/admin/hint/')
 
 
 class AdminNews(RequestHandler):
@@ -288,6 +281,10 @@ class AdminNewsAction(RequestHandler):
             payload = AddNewsForm(self.request.arguments)
             if payload.validate():
                 await self.application.objects.create(MessageModel, message=payload.message.data)
+            else:
+                self.redirect('/message/{}'.format(payload.error))
+        else:
+            self.redirect('/message/No such method: {}'.format(action))
 
         self.redirect('/admin/news/')
 
@@ -364,3 +361,27 @@ class AdminTypeAction(RequestHandler):
                     await self.application.objects.create(TypeModel, name=payload.name.data)
 
         self.redirect('/admin/type/')
+
+
+class AdminLog(RequestHandler):
+    @authenticated_isadmin_async
+    async def get(self):
+        base_info = {'title': 'CTF',
+                     'module': 'Admin Log',
+                     'admin': True,
+                     'logs': True,
+                     'isadmin': self.current_user.admin,
+                     'username': self.current_user.username,
+                     'logined': True}
+
+        logs = []
+        query = RanklogModel.select(RanklogModel, UserModel, ChanllageModel).\
+            join(UserModel).switch(RanklogModel).\
+            join(ChanllageModel).switch(RanklogModel)
+        results = await self.application.objects.execute(query)
+        for result in results:
+            logs.append([result.user.username, result.chanllage.name,
+                         result.event, result.answer,
+                         result.uptime, result.rank])
+
+        await self.render('admin_log.html', base=base_info, logs=logs)
