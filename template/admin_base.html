@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+        <ul class="nav nav-list col-lg-2">
+            <li {% if base.get('user') %}class="active"{% end %}><a href="/admin/user/"><i class="icon-white icon-home"></i>User</a></li>
+            <li {% if base.get('type') %}class="active"{% end %}><a href="/admin/type/"><i class="icon-white icon-home"></i>Type</a></li>
+            <li {% if base.get('chanllage_admin') %}class="active"{% end %}><a href="/admin/chanllage/"><i class="icon-white icon-home"></i>Chanllage</a></li>
+            <li {% if base.get('hint') %}class="active"{% end %}><a href="/admin/hint/"><i class="icon-white icon-home"></i>Hint</a></li>
+            <li {% if base.get('news') %}class="active"{% end %}><a href="/admin/news/"><i class="icon-white icon-home"></i>News</a></li>
+            <li {% if base.get('system') %}class="active"{% end %}><a href="/admin/system/"><i class="icon-white icon-home"></i>System</a></li>
+        </ul>
+        <div class="container col-lg-9">
+            {% block Admin %}
+
+            {% end %}
+        </div>
+{% end %}

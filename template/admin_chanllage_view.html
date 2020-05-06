@@ -1,0 +1,69 @@
+{% extends 'admin_base.html' %}
+
+{% block Admin %}
+    <form action="/admin/chanllage/update/{{ chanllage.name }}" method="post" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">name</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="name" value="{{ chanllage.name }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">type</label>
+            <div class="col-sm-10">
+                <select name="type_name" class="form-control">
+                    {% for type in types %}
+                    <option value="{{ type }}" {% if type == current_type %}selected{% end %}>{{ type }}</option>
+                    {% end %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">describe</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="describe" value="{{ chanllage.describe }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">rank</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="rank" value="{{ chanllage.rank }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">low</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="low" value="{{ chanllage.low }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">people</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="people" value="{{ chanllage.people }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">answer</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="answer" value="{{ chanllage.answer }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">file</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="file" name="upload_file" value="{{ chanllage.file }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">link</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="link" value="{{ chanllage.link }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save</button>
+            </div>
+        </div>
+    </form>
+{% end %}

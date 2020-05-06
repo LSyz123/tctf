@@ -1,7 +1,5 @@
 import peewee
-import peewee_async
-
-db = peewee_async.MySQLDatabase('CTF', host='127.0.0.1', port=3306, user='root', password='WhoAmI123')
+from setting import db
 
 
 class BaseModel(peewee.Model):

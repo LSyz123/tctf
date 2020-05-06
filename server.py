@@ -1,9 +1,11 @@
 import os
+
+import peewee_async
 from tornado import web, ioloop
 from tornado.options import define, options
 import tornado.httpserver
 import urls
-import setting
+from setting import settings, db
 
 define('port', default=8000, help='Run on the given port', type=int)
 define('debug', default=False, help='Debug mode', type=bool)
@@ -15,8 +17,13 @@ if __name__ == '__main__':
         template_path=os.path.join(os.path.dirname(__file__), "template"),
         static_path=os.path.join(os.path.dirname(__file__), "static"),
         debug=options.debug,
-        setting=setting.settings
+        **settings
     )
-    server = tornado.httpserver.HTTPServer(app)
-    server.listen(options.port)
-    tornado.ioloop.IOLoop.instance().start()
+
+    app.listen(options.port)
+
+    objects = peewee_async.Manager(db)
+    db.set_allow_sync(False)
+    app.objects = objects
+
+    tornado.ioloop.IOLoop.current().start()

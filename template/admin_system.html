@@ -1,0 +1,52 @@
+{% extends 'admin_base.html' %}
+
+{% block addcss %}
+    <link href="{{ static_url("css/bootstrap-datepicker.css") }}" rel="stylesheet">
+    <script src="{{ static_url('js/moment-with-locales.min.js') }}"></script>
+    <script src="{{ static_url('js/bootstrap-datetimepicker.min.js') }}"></script>
+{% end %}
+
+{% block Admin %}
+    <form action="/admin/system/" method="post" class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label">System Title</label>
+            <div class="col-sm-10">
+                <input class="form-control" id="focusedInput" type="text" name="name" value="{{ options.name }}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Game mode</label>
+            <div class="col-sm-10">
+                <select name="game_mode" class="">
+                    <option value="on" {% if options.game_mode %}selected{% end %}>On</option>
+                    <option value="off" {% if not options.game_mode %}selected{% end %}>Off</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Start time</label>
+            <div class="col-sm-10">
+                <input size="16" type="text" value="{{ now }}" name="start" readonly class="form_datetime">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">End time</label>
+            <div class="col-sm-10">
+                <input size="16" type="text" value="{{ now }}" name="end" readonly class="form_datetime">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Save</button>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
+    </script>
+{% end %}
+
+
+{% block addjs %}
+{% end %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block addcss %}
+<style>
+.d-inline-block {
+    display: inline-block !important
+}
+.challenge-button {
+    box-shadow: 3px 3px 3px grey
+}
+.w-100 {
+    width: 100% !important
+}
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+.pt-3 {
+    padding-top: 1rem !important
+}
+
+.pb-3 {
+    padding-bottom: 1rem !important
+}
+
+.mb-2 {
+    margin-bottom: .5rem !important
+}
+
+.btn-dark {
+    color: #fff;
+    background-color: #343a40;
+    border-color: #343a40
+}
+</style>
+{% end %}
+
+{% block body %}
+    {% for item in items.keys() %}
+        <div class="challenges-row col-md-12"><h3>{{ item }}</h3></div>
+        {% for chanllage in items[item] %}
+        <div class="col-md-3 d-inline-block">
+            <button class="btn btn-dark challenge-button w-100 text-truncate pt-3 pb-3 mb-2" href="/chanllage/view/{{ chanllage.name }}">
+                <p>{{ chanllage.name }}</p>
+                <span>{{ chanllage.rank }}</span>
+            </button>
+        </div>
+        {% end %}
+    {% end %}
+{% end %}

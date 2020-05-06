@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <link href="{{ static_url("css/bootstrap.min.css") }}" rel="stylesheet">
-    <title>{{ title }} - {{ module }}</title>
+    <script src="{{ static_url("js/jquery.min.js") }}"></script>
+    <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
+    {% block addcss %}
+    {% end %}
+    <title>{{ base.get('title') }} - {{ base.get('module') }}</title>
 </head>
 <body>
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#TaoistsNavBar" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+                <a class="navbar-brand" href="/">{{ base.get('title') }}</a>
             </div>
 
             <div class="collapse navbar-collapse" id="TaoistsNavBar">
                 <ul class="nav navbar-nav">
-                    <li {% try %}{% if team %}class="active"{% end %}{% except %}{% end %}><a href="/team/">队伍</a></li>
-                    <li {% try %}{% if chanllage %}class="active"{% end %}{% except %}{% end %}><a href="/chanllage/">赛题</a></li>
-                    <li {% try %}{% if rank %}class="active"{% end %}{% except %}{% end %}><a href="/rank/">排行榜</a></li>
+                    <li {% if base.get('chanllage') %}class="active"{% end %}><a href="/chanllage/">赛题</a></li>
+                    <li {% if base.get('rank') %}class="active"{% end %}><a href="/rank/">排行榜</a></li>
+                    {% if base.get('isadmin') %}
+                    <li {% if base.get('admin') %}class="active"{% end %}><a href="/admin/">后台管理</a></li>
+                    {% end %}
                 </ul>
                 <div class="profile navbar-right">
-                    {% if not logined %}
+                    {% if not base.get('logined') %}
                     <ul class="nav navbar-nav">
                         <li><a data-toggle="modal" data-target="#login" href="">登录</a></li>
                         <li><a data-toggle="modal" data-target="#register" href="">注册</a></li>
                     </ul>
                     {% else %}
-                    <p class="navbar-text">您好，<a href="/user/{{ username }}" class="navbar-link">{{ username }}</a></p>
+                    <p class="navbar-text">您好，<a href="/user/" class="navbar-link">{{ base.get('username') }}</a>&nbsp;&nbsp;<a href="/logout/" class="navbar-link">注销</a></p>
                     {% end %}
                 </div>
             </div>
         </div>
     </nav>
-
+    {% if not base.get('logined') %}
     <div id="register" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -50,7 +50,7 @@
                     <h1 class="text-center">注册</h1>
                 </div>
                 <div class="modal-body">
-                    <form class="form-group" action="/signup/" method="post">
+                    <form class="form-group" action="/register/" method="post">
                             <div class="form-group">
                                 <label for="">用户名</label>
                                 <input class="form-control" type="text" name="username" placeholder="6-15位字母或数字">
@@ -109,7 +109,7 @@
             </div>
         </div>
     </div>
-
+    {% end %}
     <div class="container">
         {% block body%}
         {% end %}
@@ -120,8 +120,5 @@
             <h4>Powered by 言子小宝宝</h4>
         </div>
     </nav>
-
-    <script src="{{ static_url("js/jquery.min.js") }}"></script>
-    <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
 </body>
 </html>

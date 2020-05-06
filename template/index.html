@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 
 {% block body %}
+{% if base['logined'] %}
     <h1>公告</h1>
-
-    {% if items %}
-        {% for item in items %}
+    {% if len(items) > 0 %}
+    {% for item in items %}
     <p><h3>{{ items.index(item) + 1 }}.&nbsp;{{ item }}</h3></p>
-        {% end %}
     {% end %}
+    {% else %}
+    <p><h3>暂无公告</h3></p>
+    {% end %}
+{% else %}
+    <h1>请登录</h1>
+{% end %}
 {% end %}
