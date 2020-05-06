@@ -44,4 +44,3 @@ class UserModel(BaseModel):
 
     class Meta:
         table_name = 'users'
-

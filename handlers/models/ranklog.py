@@ -15,4 +15,4 @@ class RanklogModel(BaseModel):
     rank = IntegerField(verbose_name='分数')
 
     class Meta:
-        table_name = 'flaglog'
+        table_name = 'ranklog'

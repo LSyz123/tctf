@@ -15,6 +15,16 @@ class AddUserForm(Form):
         Email(message='无效的邮箱')])
 
 
+class UpdateUserForm(Form):
+    username = StringField('username', validators=[
+        DataRequired(message='用户名不能为空'),
+        Length(min=4, max=50, message='用户名长度不合格（4-50）')])
+    email = StringField('email', validators=[
+        DataRequired(message='邮箱不能为空'),
+        Email(message='无效的邮箱')])
+    rank = IntegerField('rank')
+
+
 class AddChanllageForm(Form):
     name = StringField('name', validators=[
         DataRequired(message='名称不能为空'),

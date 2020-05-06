@@ -57,9 +57,9 @@ class ChanllageViewHandler(RequestHandler):
         try:
             chanllage = await self.application.objects.get(ChanllageModel, name=name)
             hints = []
-            results = await self.application.objects.execute(HintModel.select().where(chanllage_id=chanllage.id))
-            for result in results:
-                hints.append(result.id)
+            # results = await self.application.objects.execute(HintModel.select().where())
+            # for result in results:
+            #     hints.append(result.id)
             if chanllage.file != '':
                 download_link = chanllage.file.replace(self.settings['UPLOAD_BASE'], '/static/uploads/')
             else:
@@ -104,7 +104,7 @@ class AnswerHandler(RequestHandler):
                                                                   user=self.current_user, event=event,
                                                                   answer=payload.answer.data, rank=rank)
             else:
-                self.redirect('/message/{}'.format(payload.error))
+                self.redirect('/message/{}'.format(list(payload.errors.values())[0][0]))
         except ChanllageModel.DoesNotExist:
             self.redirect('/message/找不到该赛题！')
 

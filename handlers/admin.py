@@ -13,7 +13,7 @@ from tools.auth_wrap import authenticated_isadmin_async
 from handlers.models.user import UserModel
 from handlers.models.message import MessageModel
 from handlers.forms.admin import AddUserForm, AddChanllageForm, UpdateChanllageForm, AddNewsForm, SystemForm, \
-    AddHintForm, AddTypeForm
+    AddHintForm, AddTypeForm, UpdateUserForm
 
 
 class AdminUser(RequestHandler):
@@ -78,7 +78,7 @@ class AdminUserAction(RequestHandler):
             self.redirect('/admin/user/')
 
     @authenticated_isadmin_async
-    async def post(self, action):
+    async def post(self, action, username=''):
         if action == 'add':
             payload = AddUserForm(self.request.arguments)
             if payload.validate():
@@ -89,7 +89,20 @@ class AdminUserAction(RequestHandler):
                                                           username=payload.username.data,
                                                           password=payload.password.data,
                                                           email=payload.email.data)
-        self.redirect('/admin/user/')
+        elif action == 'update':
+            payload = UpdateUserForm(self.request.arguments)
+            if payload.validate():
+                try:
+                    user = await self.application.objects.get(UserModel, username=username)
+                    user.username = payload.username.data
+                    user.email = payload.email.data
+                    user.rank = payload.rank.data
+                    await self.application.objects.update(user)
+                except UserModel.DoesNotExist:
+                    self.redirect('/message/{}'.format(list(payload.errors.values())[0][0]))
+
+        if not self._finished:
+            self.redirect('/admin/user/')
 
 
 class AdminChanllage(RequestHandler):
@@ -142,7 +155,7 @@ class AdminChanllageAction(RequestHandler):
                 for result in results:
                     types.append(result['name'])
 
-                current_type = await self.application.objects.get(TypeModel, hint_id=chanllage.type_name_id)
+                current_type = await self.application.objects.get(TypeModel, id=chanllage.type_name_id)
 
                 chanllage.file = chanllage.file.replace(self.settings['UPLOAD_BASE'], '')
                 await self.render('admin_chanllage_view.html', base=base_info, chanllage=chanllage, types=types,
@@ -177,7 +190,7 @@ class AdminChanllageAction(RequestHandler):
                         await f.write(files_meta[0]['body'])
 
                 try:
-                    await self.application.objects.get(ChanllageModel, name=name)
+                    await self.application.objects.get(ChanllageModel, name=name.encode('utf8'))
                 except ChanllageModel.DoesNotExist:
                     await self.application.objects.create(ChanllageModel, name=name,
                                                           describe=describe, rank=rank,
@@ -221,15 +234,21 @@ class AdminHint(RequestHandler):
         items = []
         results = await self.application.objects.execute(HintModel.select().dicts())
         for result in results:
-            items.append([chanllages[result['chanllage']], result['message'], result['sub_rank']])
+            items.append([chanllages[result['chanllage']], result['message'], result['sub_rank'], result['id']])
 
         await self.render('admin_hint.html', base=base_info, items=items, chanllages=chanllages.values())
 
 
 class AdminHintAction(RequestHandler):
     @authenticated_isadmin_async
-    async def get(self, action, name):
-        pass
+    async def get(self, action, id):
+        if action == 'del':
+            try:
+                hint = await self.application.objects.get(HintModel, id=id)
+                await self.application.objects.delete(hint)
+            except HintModel.DoesNotExist:
+                pass
+        self.redirect('/admin/hint/')
 
     @authenticated_isadmin_async
     async def post(self, action):
@@ -282,7 +301,7 @@ class AdminNewsAction(RequestHandler):
             if payload.validate():
                 await self.application.objects.create(MessageModel, message=payload.message.data)
             else:
-                self.redirect('/message/{}'.format(payload.error))
+                self.redirect('/message/{}'.format(list(payload.errors.values())[0][0]))
         else:
             self.redirect('/message/无效的方法: {}'.format(action))
 
@@ -350,6 +369,18 @@ class AdminType(RequestHandler):
 
 
 class AdminTypeAction(RequestHandler):
+    @authenticated_isadmin_async
+    async def get(self, action, type_name):
+        if action == 'del':
+            try:
+                _type = await self.application.objects.get(TypeModel, name=type_name)
+                await self.application.objects.delete(_type)
+            except TypeModel.DoesNotExist:
+                self.redirect('/admin/type/')
+
+        if not self._finished:
+            self.redirect('/admin/type')
+
     @authenticated_isadmin_async
     async def post(self, action):
         if action == 'add':
