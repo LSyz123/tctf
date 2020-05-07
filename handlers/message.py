@@ -13,8 +13,7 @@ class MessageHandler(RequestHandler):
         if token:
             payload = jwt.decode(token, jwt.decode(token, self.settings['secret_key'],
                                                    algorithm=self.settings['secret_algorithm'],
-                                                   leeway=self.settings['jwt_expire'],
-                                                   options={'verify_exp': True}))
+                                                   leeway=self.settings['jwt_expire'], options={'verify_exp': True}))
             if payload:
                 base_info['logined'] = True
                 base_info['username'] = payload['username']

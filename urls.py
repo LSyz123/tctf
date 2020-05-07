@@ -16,7 +16,6 @@ urls = [
     web.URLSpec(r'/user/?', UserInfoHandler, name='UserInfo'),
     web.URLSpec(r'/rank/?', RankHandler, name='Rank'),
     web.URLSpec(r'/chanllage/?', ChanllageHandler, name='Chanllage'),
-    web.URLSpec(r'/chanllage/view/(.*)/?', ChanllageViewHandler, name='ChanllageView'),
     web.URLSpec(r'/answer/(.*)/?', AnswerHandler, name='UploadAnswer'),
     web.URLSpec(r'/admin/?', AdminUser, name='Admin'),
     web.URLSpec(r'/admin/user/?', AdminUser, name='AdminUser'),

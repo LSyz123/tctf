@@ -35,6 +35,11 @@ class ChanllageHandler(RequestHandler):
             items[_type.name] = []
             for chanllage in chanllages:
                 if chanllage.type_name_id == _type.id:
+                    if chanllage.file != '':
+                        download_link = chanllage.file.replace(self.settings['UPLOAD_BASE'], '/static/uploads/')
+                    else:
+                        download_link = '#'
+                    chanllage.file = download_link
                     items[_type.name].append(chanllage)
 
         for item in keys:
@@ -42,35 +47,6 @@ class ChanllageHandler(RequestHandler):
                 items.pop(item)
 
         await self.render('chanllage.html', base=base_info, items=items)
-
-
-class ChanllageViewHandler(RequestHandler):
-    @authenticated_async
-    async def get(self, name):
-        base_info = {'title': 'CTF',
-                     'module': 'index',
-                     'logined': True,
-                     'isadmin': self.current_user.admin,
-                     'username': self.current_user.username,
-                     'chanllage': True}
-
-        try:
-            chanllage = await self.application.objects.get(ChanllageModel, name=name)
-            hints = []
-            # results = await self.application.objects.execute(HintModel.select().where())
-            # for result in results:
-            #     hints.append(result.id)
-            if chanllage.file != '':
-                download_link = chanllage.file.replace(self.settings['UPLOAD_BASE'], '/static/uploads/')
-            else:
-                download_link = '#'
-            await self.render('chanllage_view.html',
-                              base=base_info, chanllage=chanllage,
-                              download_link=download_link, hints=hints)
-        except ChanllageModel.DoesNotExist:
-            self.redirect('/message/找不到该赛题！')
-        if not self._finished:
-            self.redirect('/')
 
 
 class AnswerHandler(RequestHandler):

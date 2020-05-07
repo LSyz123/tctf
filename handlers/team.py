@@ -13,7 +13,9 @@ class TeamHandler(web.RequestHandler):
                      'username': self.current_user.username,
                      'team': True}
         results = await self.application.objects.execute(UserModel.select())
+
         items = []
         for result in results:
             items.append(result)
+
         await self.render('team.html', base=base_info, items=items)
