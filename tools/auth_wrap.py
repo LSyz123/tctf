@@ -20,8 +20,13 @@ def authenticated_async(method):
 
                     await method(self, *args, **kwargs)
                 except UserModel.DoesNotExist as e:
+                    self.clear_cookie('token')
                     self.redirect('/')
             except jwt.ExpiredSignatureError as e:
+                self.clear_cookie('token')
+                self.redirect('/')
+            except jwt.InvalidSignatureError as e:
+                self.clear_cookie('token')
                 self.redirect('/')
         else:
             self.redirect('/')

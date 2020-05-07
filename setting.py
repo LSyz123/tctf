@@ -2,9 +2,10 @@ import peewee_async
 import os
 
 settings = {
-    'secret_key': 'ZGGA#Mp4yL4w5CDu',
+    'secret_key': 'ZGGA12318fasMp4yL4w5CDu',
     'secret_algorithm': 'HS256',
-    'jwt_expire': 24*3600,
+    'title': 'CTF',
+    'jwt_expire': 24 * 60 * 60,
     'UPLOAD_BASE': os.path.join(os.path.dirname(__file__), "static/uploads/"),
 }
 

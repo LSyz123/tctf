@@ -10,30 +10,29 @@
     <title>{{ base.get('title') }} - {{ base.get('module') }}</title>
 </head>
 <body>
-    <nav class="navbar navbar-default navbar-static-top">
+    <nav class="navbar-default navbar-inverse" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">{{ base.get('title') }}</a>
             </div>
 
-            <div class="collapse navbar-collapse" id="TaoistsNavBar">
+            <ul class="nav navbar-nav">
+                <li {% if base.get('chanllage') %}class="active"{% end %}><a href="/chanllage/">赛题</a></li>
+                <li {% if base.get('hint') %}class="active"{% end %}><a href="/hint/">Hint</a></li>
+                <li {% if base.get('rank') %}class="active"{% end %}><a href="/rank/">排行榜</a></li>
+                {% if base.get('isadmin') %}
+                <li {% if base.get('admin') %}class="active"{% end %}><a href="/admin/">后台管理</a></li>
+                {% end %}
+            </ul>
+            <div class="profile navbar-right">
+                {% if not base.get('logined') %}
                 <ul class="nav navbar-nav">
-                    <li {% if base.get('chanllage') %}class="active"{% end %}><a href="/chanllage/">赛题</a></li>
-                    <li {% if base.get('rank') %}class="active"{% end %}><a href="/rank/">排行榜</a></li>
-                    {% if base.get('isadmin') %}
-                    <li {% if base.get('admin') %}class="active"{% end %}><a href="/admin/">后台管理</a></li>
-                    {% end %}
+                    <li><a data-toggle="modal" data-target="#login" href="">登录</a></li>
+                    <li><a data-toggle="modal" data-target="#register" href="">注册</a></li>
                 </ul>
-                <div class="profile navbar-right">
-                    {% if not base.get('logined') %}
-                    <ul class="nav navbar-nav">
-                        <li><a data-toggle="modal" data-target="#login" href="">登录</a></li>
-                        <li><a data-toggle="modal" data-target="#register" href="">注册</a></li>
-                    </ul>
-                    {% else %}
-                    <p class="navbar-text">您好，<a href="/user/" class="navbar-link">{{ base.get('username') }}</a>&nbsp;&nbsp;<a href="/logout/" class="navbar-link">注销</a></p>
-                    {% end %}
-                </div>
+                {% else %}
+                <p class="navbar-text">您好，<a href="/user/" class="navbar-link">{{ base.get('username') }}</a>&nbsp;&nbsp;<a href="/logout/" class="navbar-link">注销</a></p>
+                {% end %}
             </div>
         </div>
     </nav>

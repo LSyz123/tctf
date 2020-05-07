@@ -3,11 +3,13 @@ import jwt
 
 from handlers.models.message import MessageModel
 from handlers.models.user import UserModel
+from tools.get_title import get_title
 
 
 class IndexHandler(web.RequestHandler):
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'index',
                      'logined': False}
         items = []
@@ -27,5 +29,6 @@ class IndexHandler(web.RequestHandler):
                     items.append(res.message)
 
             except jwt.ExpiredSignatureError as e:
+                self.clear_cookie('token')
                 pass
         await self.render('index.html', base=base_info, items=items)

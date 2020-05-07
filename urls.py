@@ -1,11 +1,12 @@
+from handlers.hint import HintHandler, HintBuyHandler
 from handlers.index import IndexHandler
 from handlers.message import MessageHandler
 from handlers.user import LoginHandler, RegisterHandler, UserInfoHandler, UserLogoutHandler
 from handlers.rank import RankHandler
 from handlers.team import TeamHandler
 from handlers.admin import AdminUser, AdminChanllage, AdminHint, AdminNews, AdminSystem, AdminUserAction, \
-    AdminChanllageAction, AdminNewsAction, AdminHintAction, AdminType, AdminTypeAction, AdminLog
-from handlers.chanllage import ChanllageHandler, ChanllageViewHandler, AnswerHandler
+    AdminChanllageAction, AdminNewsAction, AdminHintAction, AdminType, AdminTypeAction, AdminLog, AdminBuylog
+from handlers.chanllage import ChanllageHandler, AnswerHandler
 from tornado import web
 
 urls = [
@@ -34,6 +35,10 @@ urls = [
     web.URLSpec(r'/admin/type/?', AdminType, name='AdminType'),
     web.URLSpec(r'/admin/type/(\w+)/?', AdminTypeAction, name='AdminTypeAction'),
     web.URLSpec(r'/admin/type/(\w+)/(.+)/?', AdminTypeAction, name='AdminTypeAction_s'),
-    web.URLSpec(r'/admin/logs/', AdminLog, name='AdminLog'),
-    web.URLSpec(r'/message/(.*)/?', MessageHandler, name='message'),
+    web.URLSpec(r'/admin/logs/?', AdminLog, name='AdminLog'),
+    web.URLSpec(r'/admin/buylogs/?', AdminBuylog, name='AdminBuylog'),
+    web.URLSpec(r'/message/(.*)/?', MessageHandler, name='Message'),
+    web.URLSpec(r'/hint/?', HintHandler, name='Hint'),
+    web.URLSpec(r'/hint/buy/(\d+)/?', HintBuyHandler, name='BuyHint'),
+
 ]

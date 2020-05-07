@@ -17,22 +17,22 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">比赛模式</label>
             <div class="col-sm-10">
-                <select name="game_mode" class="">
-                    <option value="on" {% if options.game_mode %}selected{% end %}>On</option>
-                    <option value="off" {% if not options.game_mode %}selected{% end %}>Off</option>
+                <select name="game_mode" class="form-control">
+                    <option value="true" {% if options.game_mode %}selected{% end %}>On</option>
+                    <option value="false" {% if not options.game_mode %}selected{% end %}>Off</option>
                 </select>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">开始时间</label>
             <div class="col-sm-10">
-                <input size="16" type="text" value="{{ now }}" name="start" readonly class="form_datetime">
+                <input class="form-control" type="text" value="{{ options.start }}" name="start">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">结束时间</label>
             <div class="col-sm-10">
-                <input size="16" type="text" value="{{ now }}" name="end" readonly class="form_datetime">
+                <input class="form-control" type="text" value="{{ options.end }}" name="end">
             </div>
         </div>
         <div class="form-group">
@@ -41,10 +41,6 @@
             </div>
         </div>
     </form>
-
-    <script type="text/javascript">
-        $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd hh:ii'});
-    </script>
 {% end %}
 
 

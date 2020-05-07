@@ -4,8 +4,10 @@ import time
 import aiofiles
 import random
 from tornado.web import RequestHandler
+
+from handlers.models.buylog import BuylogModel
 from handlers.models.chanllage import ChanllageModel
-from handlers.models.hintmodel import HintModel
+from handlers.models.hint import HintModel
 from handlers.models.ranklog import RanklogModel
 from handlers.models.system import SystemModel
 from handlers.models.type import TypeModel
@@ -14,12 +16,14 @@ from handlers.models.user import UserModel
 from handlers.models.message import MessageModel
 from handlers.forms.admin import AddUserForm, AddChanllageForm, UpdateChanllageForm, AddNewsForm, SystemForm, \
     AddHintForm, AddTypeForm, UpdateUserForm
+from tools.get_title import get_title
 
 
 class AdminUser(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'Admin User',
                      'admin': True,
                      'user': True,
@@ -63,7 +67,7 @@ class AdminUserAction(RequestHandler):
             try:
                 user = await self.application.objects.get(UserModel, username=username)
 
-                base_info = {'title': 'CTF',
+                base_info = {'title': self.settings['title'],
                              'module': 'Admin User',
                              'admin': True,
                              'user': True,
@@ -108,7 +112,8 @@ class AdminUserAction(RequestHandler):
 class AdminChanllage(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'Admin Chanllage',
                      'admin': True,
                      'chanllage_admin': True,
@@ -142,7 +147,8 @@ class AdminChanllageAction(RequestHandler):
             try:
                 chanllage = await self.application.objects.get(ChanllageModel, name=name)
 
-                base_info = {'title': 'CTF',
+                title = await get_title(self)
+                base_info = {'title': title,
                              'module': 'Admin Chanllage',
                              'admin': True,
                              'chanllage_admin': True,
@@ -190,7 +196,7 @@ class AdminChanllageAction(RequestHandler):
                         await f.write(files_meta[0]['body'])
 
                 try:
-                    await self.application.objects.get(ChanllageModel, name=name.encode('utf8'))
+                    await self.application.objects.get(ChanllageModel, name=name)
                 except ChanllageModel.DoesNotExist:
                     await self.application.objects.create(ChanllageModel, name=name,
                                                           describe=describe, rank=rank,
@@ -218,10 +224,11 @@ class AdminChanllageAction(RequestHandler):
 class AdminHint(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'Admin Hint',
                      'admin': True,
-                     'hint': True,
+                     'admin_hint': True,
                      'isadmin': self.current_user.admin,
                      'username': self.current_user.username,
                      'logined': True}
@@ -270,7 +277,8 @@ class AdminHintAction(RequestHandler):
 class AdminNews(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'Admin Hint',
                      'admin': True,
                      'news': True,
@@ -311,7 +319,8 @@ class AdminNewsAction(RequestHandler):
 class AdminSystem(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'Admin Hint',
                      'admin': True,
                      'system': True,
@@ -325,34 +334,36 @@ class AdminSystem(RequestHandler):
             await self.application.objects.create(SystemModel, name='CTF')
             options = await self.application.objects.get(SystemModel)
 
-        await self.render('admin_system.html', base=base_info, options=options,
-                          now=time.strftime("%Y-%m-%d %H:%M", time.localtime()))
+        await self.render('admin_system.html', base=base_info, options=options)
 
     @authenticated_isadmin_async
     async def post(self):
-        base_info = {'title': 'CTF',
-                     'module': 'Admin Hint',
-                     'admin': True,
-                     'system': True,
-                     'isadmin': self.current_user.admin,
-                     'username': self.current_user.username,
-                     'logined': True}
-        try:
-            options = await self.application.objects.get(SystemModel)
-        except SystemModel.DoesNotExist:
-            await self.application.objects.create(SystemModel, name='CTF')
-            options = await self.application.objects.get(SystemModel)
-
         payload = SystemForm(self.request.arguments)
         if payload.validate():
-            pass
-        await self.render('admin_system.html', base=base_info, options=options)
+            name = payload.name.data
+            game_mode = payload.game_mode.data
+            start = payload.start.data
+            end = payload.end.data
+            try:
+                system = await self.application.objects.get(SystemModel)
+                system.name = name
+                system.game_mode = game_mode
+                system.start = start
+                system.end = end
+                await self.application.objects.update(system)
+            except SystemModel.DoesNotExist:
+                self.redirect('/message/Error')
+        else:
+            self.redirect('/message/{}'.format(list(payload.errors.values())[0][0]))
+        if not self._finished:
+            self.redirect('/admin/system/')
 
 
 class AdminType(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'Admin Type',
                      'admin': True,
                      'type': True,
@@ -397,7 +408,8 @@ class AdminTypeAction(RequestHandler):
 class AdminLog(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'Admin Log',
                      'admin': True,
                      'logs': True,
@@ -406,8 +418,8 @@ class AdminLog(RequestHandler):
                      'logined': True}
 
         logs = []
-        query = RanklogModel.select(RanklogModel, UserModel, ChanllageModel).\
-            join(UserModel).switch(RanklogModel).\
+        query = RanklogModel.select(RanklogModel, UserModel, ChanllageModel). \
+            join(UserModel).switch(RanklogModel). \
             join(ChanllageModel).switch(RanklogModel)
         results = await self.application.objects.execute(query)
         for result in results:
@@ -415,4 +427,24 @@ class AdminLog(RequestHandler):
                          result.event, result.answer,
                          result.uptime, result.rank])
 
-        await self.render('admin_log.html', base=base_info, logs=logs)
+        await self.render('admin_ranklog.html', base=base_info, logs=logs)
+
+
+class AdminBuylog(RequestHandler):
+    @authenticated_isadmin_async
+    async def get(self):
+        query = BuylogModel.select(BuylogModel, HintModel, UserModel) \
+            .join(HintModel).switch(BuylogModel) \
+            .join(UserModel).switch(UserModel)
+        logs = await self.application.objects.execute(query)
+
+        title = await get_title(self)
+        base_info = {'title': title,
+                     'module': 'Admin Log',
+                     'admin': True,
+                     'logs': True,
+                     'isadmin': self.current_user.admin,
+                     'username': self.current_user.username,
+                     'logined': True}
+
+        await self.render('admin_buylog.html', base=base_info, logs=logs)

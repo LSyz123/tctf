@@ -5,6 +5,7 @@ from tornado import web, ioloop
 from tornado.options import define, options
 import tornado.httpserver
 import urls
+from handlers.models.system import SystemModel
 from setting import settings, db
 
 define('port', default=8000, help='Run on the given port', type=int)

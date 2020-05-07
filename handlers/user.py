@@ -6,6 +6,8 @@ from tools.auth_wrap import authenticated_async
 import jwt
 from datetime import datetime
 
+from tools.get_title import get_title
+
 
 class LoginHandler(web.RequestHandler):
     async def post(self):
@@ -65,7 +67,8 @@ class RegisterHandler(web.RequestHandler):
 class UserInfoHandler(web.RequestHandler):
     @authenticated_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'UserInfo',
                      'logined': True,
                      'username': self.current_user.username,

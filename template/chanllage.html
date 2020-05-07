@@ -30,10 +30,70 @@
 }
 
 .btn-dark {
+    color: #0f0f0f;
+    background-color: #343a40;
+    border-color: #343a40
+}
+
+.btn-dark:hover {
+    color: #fff;
+    background-color: #23272b;
+    border-color: #1d2124
+}
+
+.btn-dark.focus, .btn-dark:focus {
+    box-shadow: 0 0 0 .2rem rgba(82, 88, 93, .5)
+}
+
+.btn-dark.disabled, .btn-dark:disabled {
     color: #fff;
     background-color: #343a40;
     border-color: #343a40
 }
+
+.btn-dark:not(:disabled):not(.disabled).active, .btn-dark:not(:disabled):not(.disabled):active, .show > .btn-dark.dropdown-toggle {
+    color: #fff;
+    background-color: #1d2124;
+    border-color: #171a1d
+}
+
+.btn-dark:not(:disabled):not(.disabled).active:focus, .btn-dark:not(:disabled):not(.disabled):active:focus, .show > .btn-dark.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(82, 88, 93, .5)
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #218838;
+    border-color: #1e7e34
+}
+
+.btn-success.focus, .btn-success:focus {
+    box-shadow: 0 0 0 .2rem rgba(72, 180, 97, .5)
+}
+
+.btn-success.disabled, .btn-success:disabled {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745
+}
+
+.btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show > .btn-success.dropdown-toggle {
+    color: #fff;
+    background-color: #1e7e34;
+    border-color: #1c7430
+}
+
+.btn-success:not(:disabled):not(.disabled).active:focus, .btn-success:not(:disabled):not(.disabled):active:focus, .show > .btn-success.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(72, 180, 97, .5)
+}
+
+
 </style>
 {% end %}
 
@@ -42,7 +102,7 @@
         <div class="challenges-row col-md-12"><h3>{{ item }}</h3></div>
         {% for chanllage in items[item] %}
         <div class="col-md-3 d-inline-block">
-            <button data-toggle="modal" data-target="#{{ chanllage.id }}" class="btn btn-dark challenge-button w-100 text-truncate pt-3 pb-3 mb-2">
+            <button data-toggle="modal" data-target="#{{ chanllage.id }}" class="btn {% if chanllage not in completed %}btn-dark{% else %}btn-success{% end %} challenge-button w-100 text-truncate pt-3 pb-3 mb-2">
                 <p>{{ chanllage.name }}</p>
                 <span>{{ chanllage.rank }}</span>
             </button>
@@ -69,10 +129,12 @@
                         <h4>Link: <a href="{{ chanllage.link }}">Go</a></h4>
                         {% end %}
                         <hr>
+                        {% if chanllage not in completed %}
                         <form action="/answer/{{ chanllage.name }}" method="post">
                             Answer: <input size="25" type="text" name="answer" placeholder="">
                             <input type="submit" value="Submit">
                         </form>
+                        {% end %}
                     </div>
                 </div>
             </div>

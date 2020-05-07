@@ -2,16 +2,22 @@ from tornado.web import RequestHandler
 
 from handlers.forms.chanllage import AnswerForm
 from handlers.models.chanllage import ChanllageModel
-from handlers.models.hintmodel import HintModel
 from handlers.models.ranklog import RanklogModel
 from handlers.models.type import TypeModel
 from tools.auth_wrap import authenticated_async
+from tools.game_mode import started
+from tools.get_title import get_title
 
 
 class ChanllageHandler(RequestHandler):
     @authenticated_async
     async def get(self):
-        base_info = {'title': 'CTF',
+        game_status = await started(self)
+        if not game_status['status']:
+            self.redirect('/message/{}'.format(game_status['error']))
+            await self.finish()
+        title = await get_title(self)
+        base_info = {'title': title,
                      'module': 'index',
                      'logined': True,
                      'isadmin': self.current_user.admin,
@@ -27,6 +33,14 @@ class ChanllageHandler(RequestHandler):
         results = await self.application.objects.execute(ChanllageModel.select())
         for result in results:
             chanllages.append(result)
+
+        completed = []
+        query = RanklogModel.select(RanklogModel, ChanllageModel)\
+            .where(RanklogModel.user==self.current_user and RanklogModel.event=='Corrent')\
+            .join(ChanllageModel).switch(RanklogModel)
+        results = await self.application.objects.execute(query)
+        for result in results:
+            completed.append(result.chanllage)
 
         items = {}
         keys = []
@@ -46,12 +60,16 @@ class ChanllageHandler(RequestHandler):
             if len(items[item]) == 0:
                 items.pop(item)
 
-        await self.render('chanllage.html', base=base_info, items=items)
+        await self.render('chanllage.html', base=base_info, items=items, completed=completed)
 
 
 class AnswerHandler(RequestHandler):
     @authenticated_async
     async def post(self, name):
+        game_status = await started(self)
+        if not game_status['status']:
+            self.redirect('/message/{}'.format(game_status['error']))
+            await self.finish()
         try:
             chanllage = await self.application.objects.get(ChanllageModel, name=name)
             payload = AnswerForm(self.request.arguments)
@@ -59,10 +77,10 @@ class AnswerHandler(RequestHandler):
                 try:
                     await self.application.objects.get(RanklogModel, user_id=self.current_user.id,
                                                        chanllage_id=chanllage.id,
-                                                       event='Correct Answer of {}'.format(chanllage.name))
+                                                       event='Correct')
                 except RanklogModel.DoesNotExist:
                     if payload.answer.data == chanllage.answer:
-                        event = 'Correct Answer of {}'.format(chanllage.name)
+                        event = 'Correct'
                         rank = chanllage.rank
                         if chanllage.rank > chanllage.low and chanllage.people == 0:
                             rank = chanllage.low
@@ -79,38 +97,17 @@ class AnswerHandler(RequestHandler):
                             await self.application.objects.create(RanklogModel, chanllage=chanllage,
                                                                   user=self.current_user, event=event,
                                                                   answer=payload.answer.data, rank=rank)
+                    else:
+                        event = 'Wrong'
+                        await self.application.objects.create(RanklogModel, chanllage=chanllage,
+                                                              user=self.current_user, event=event,
+                                                              answer=payload.answer.data, rank=0)
+                        self.redirect('/message/Wrong Answer!')
             else:
                 self.redirect('/message/{}'.format(list(payload.errors.values())[0][0]))
         except ChanllageModel.DoesNotExist:
-            self.redirect('/message/找不到该赛题！')
+            self.redirect('/message/找不到该赛题!')
 
         if not self._finished:
             self.redirect('/chanllage/')
 
-
-class HintBuyHandler(RequestHandler):
-    @authenticated_async
-    async def get(self, chanllage_name, hint_id):
-        try:
-            hint = await self.application.objects.get(HintModel, hint_id=hint_id)
-            event = 'Buy {} hint'.format(hint.id)
-            try:
-                await self.application.objects.get(RanklogModel,
-                                                   uesr_id=self.current_user.id,
-                                                   event=event)
-            except RanklogModel.DoesNotExist:
-                try:
-                    chanllage = await self.application.objects.get(ChanllageModel,
-                                                                   name=chanllage_name)
-                    self.current_user.rank -= abs(hint.rank)
-                    async with self.application.objects.atomic():
-                        await self.application.objects.update(self.current_user)
-                        await self.application.objects.create(RanklogModel, chanllage=chanllage,
-                                                              user=self.current_user, event=event,
-                                                              answer='', rank=hint.rank)
-                except ChanllageModel.DoesNotExist:
-                    self.redirect('/message/找不到该赛题！')
-        except HintModel.DoesNotExist:
-            self.redirect('/message/找不到该提示！')
-        if not self._finished:
-            self.redirect('/')

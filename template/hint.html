@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th style="vertical-align: middle;text-align: center;">chanllage</th>
+            <th style="vertical-align: middle;text-align: center;">hint</th>
+            <th style="vertical-align: middle;text-align: center;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for hint in hints %}
+        <tr>
+            <td style="vertical-align: middle;text-align: center;">{{ hint.chanllage.name }}</td>
+            {% if hint in buyed %}
+            <td style="vertical-align: middle;text-align: center;">{{ hint.message }}</td>
+            <td style="vertical-align: middle;text-align: center;">buyed</td>
+            {% else %}
+            <td style="vertical-align: middle;text-align: center;">Please buy it.</td>
+            <td style="vertical-align: middle;text-align: center;"><a href="/hint/buy/{{ hint.id }}">buy</a></td>
+            {% end %}
+        </tr>
+        {% end %}
+    </tbody>
+</table>
+{% end %}

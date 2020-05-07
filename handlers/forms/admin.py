@@ -1,5 +1,5 @@
 from wtforms_tornado import Form
-from wtforms.fields import StringField, PasswordField, FileField, IntegerField, BooleanField, DateField
+from wtforms.fields import StringField, PasswordField, FileField, IntegerField, BooleanField, DateTimeField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -72,16 +72,6 @@ class AddNewsForm(Form):
         Length(min=4, max=50, message='公告长度不合格（1-50）')])
 
 
-class SystemForm(Form):
-    name = StringField('name', validators=[
-        DataRequired(message='系统名称不能为空'),
-        Length(min=4, max=50, message='系统名称长度不合格（4-50）')])
-    game_mode = BooleanField('game_mode', validators=[
-        DataRequired(message='比赛模式不能为空')])
-    start = DateField('start', validators=[DataRequired(message='请输入开始时间')])
-    end = DateField('end', validators=[DataRequired(message='请输入结束时间')])
-
-
 class AddHintForm(Form):
     chanllage = StringField('chanllage', validators=[
         DataRequired(message='赛题不能为空')])
@@ -94,3 +84,17 @@ class AddHintForm(Form):
 class AddTypeForm(Form):
     name = StringField('name', validators=[
         DataRequired(message='类型名不能为空')])
+
+
+class SystemForm(Form):
+    name = StringField('name', validators=[
+        DataRequired(message='Need name')
+    ])
+    game_mode = BooleanField('game_mode')
+    start = DateTimeField('start', validators=[
+        DataRequired(message='Need start')
+    ])
+    end = DateTimeField('end', validators=[
+        DataRequired(message='Need end')
+    ])
+
