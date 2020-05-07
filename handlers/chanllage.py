@@ -77,7 +77,7 @@ class AnswerHandler(RequestHandler):
                 try:
                     await self.application.objects.get(RanklogModel, user_id=self.current_user.id,
                                                        chanllage_id=chanllage.id,
-                                                       event='Correct')
+                                                       event='Corrent')
                 except RanklogModel.DoesNotExist:
                     if payload.answer.data == chanllage.answer:
                         event = 'Correct'
