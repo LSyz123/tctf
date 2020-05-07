@@ -1,5 +1,9 @@
 from tornado import web
-from handlers.forms.user import RegisterForm, LoginForm
+from handlers.forms.user import RegisterForm, LoginForm, UserInfoForm, PasswdForm
+from handlers.models.buylog import BuylogModel
+from handlers.models.chanllage import ChanllageModel
+from handlers.models.hint import HintModel
+from handlers.models.ranklog import RanklogModel
 from handlers.models.user import UserModel
 from tools.auth_wrap import authenticated_async
 
@@ -71,10 +75,85 @@ class UserInfoHandler(web.RequestHandler):
         base_info = {'title': title,
                      'module': 'UserInfo',
                      'logined': True,
+                     'userinfo': True,
                      'username': self.current_user.username,
                      'isadmin': self.current_user.admin}
-        user = self.current_user
-        await self.render('user.html', base=base_info, user=user)
+
+        await self.render('user_info.html', base=base_info, current_user=self.current_user)
+
+    @authenticated_async
+    async def post(self):
+        payload = UserInfoForm(self.request.arguments)
+        if payload.validate():
+            email = payload.email.data
+            user = self.current_user
+            user.email = email
+            await self.application.objects.update(user)
+        else:
+            self.redirect('/message/{}'.format(list(payload.errors.values())[0][0]))
+        if not self._finished:
+            self.redirect('/user/')
+
+
+class PasswdHandler(web.RequestHandler):
+    @authenticated_async
+    async def get(self):
+        title = await get_title(self)
+        base_info = {'title': title,
+                     'module': 'UserInfo',
+                     'logined': True,
+                     'passwd': True,
+                     'username': self.current_user.username,
+                     'isadmin': self.current_user.admin}
+
+        await self.render('user_passwd.html', base=base_info)
+
+    @authenticated_async
+    async def post(self):
+        payload = PasswdForm(self.request.arguments)
+        if payload.validate():
+            user = self.current_user
+            message = 'Success'
+            if not user.password.check_password(payload.current_password.data):
+                message = 'Wrong password!'
+            user.password = payload.new_password.data
+            await self.application.objects.update(user)
+            self.redirect('/message/{}'.format(message))
+        else:
+            self.redirect('/message/{}'.format(list(payload.errors.values())[0][0]))
+
+
+class UserlogHandler(web.RequestHandler):
+    @authenticated_async
+    async def get(self, log_type):
+        title = await get_title(self)
+        base_info = {'title': title,
+                     'module': 'UserInfo',
+                     'logined': True,
+                     'username': self.current_user.username,
+                     'isadmin': self.current_user.admin}
+        if log_type == 'buy':
+            base_info['buylog'] = True
+            query = BuylogModel.select(BuylogModel, HintModel) \
+                .where(BuylogModel.user == self.current_user) \
+                .join(HintModel).switch(BuylogModel)
+            results = await self.application.objects.execute(query)
+            logs = []
+            for result in results:
+                logs.append(result)
+            await self.render('user_buylog.html', base=base_info, logs=logs)
+        elif log_type == 'answer':
+            base_info['answerlog'] = True
+            query = RanklogModel.select(RanklogModel, ChanllageModel)\
+                .where(RanklogModel.user==self.current_user)\
+                .join(ChanllageModel).switch(RanklogModel)
+            results = await self.application.objects.execute(query)
+            logs = []
+            for result in results:
+                logs.append(result)
+            await self.render('user_answerlog.html', base=base_info, logs=logs)
+        else:
+            self.redirect('/message/No such log type')
 
 
 class UserLogoutHandler(web.RequestHandler):

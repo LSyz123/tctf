@@ -1,0 +1,26 @@
+{% extends 'user_base.html' %}
+
+{% block user %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th style="vertical-align: middle;text-align: center;">赛题</th>
+            <th style="vertical-align: middle;text-align: center;">事件</th>
+            <th style="vertical-align: middle;text-align: center;">答案</th>
+            <th style="vertical-align: middle;text-align: center;">事件</th>
+            <th style="vertical-align: middle;text-align: center;">分数</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for log in logs %}
+        <tr>
+            <td style="vertical-align: middle;text-align: center;">{{ log.chanllage.name }}</td>
+            <td style="vertical-align: middle;text-align: center;">{{ log.event }}</td>
+            <td style="vertical-align: middle;text-align: center;">{{ log.answer }}</td>
+            <td style="vertical-align: middle;text-align: center;">{{ log.uptime }}</td>
+            <td style="vertical-align: middle;text-align: center;">{{ log.rank }}</td>
+        </tr>
+        {% end %}
+    </tbody>
+</table>
+{% end %}

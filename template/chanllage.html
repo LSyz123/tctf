@@ -29,8 +29,9 @@
     margin-bottom: .5rem !important
 }
 
+
 .btn-dark {
-    color: #0f0f0f;
+    color: #fff;
     background-color: #343a40;
     border-color: #343a40
 }
@@ -99,46 +100,47 @@
 
 {% block body %}
     {% for item in items.keys() %}
-        <div class="challenges-row col-md-12"><h3>{{ item }}</h3></div>
-        {% for chanllage in items[item] %}
-        <div class="col-md-3 d-inline-block">
-            <button data-toggle="modal" data-target="#{{ chanllage.id }}" class="btn {% if chanllage not in completed %}btn-dark{% else %}btn-success{% end %} challenge-button w-100 text-truncate pt-3 pb-3 mb-2">
-                <p>{{ chanllage.name }}</p>
-                <span>{{ chanllage.rank }}</span>
-            </button>
-        </div>
-
-        <div id="{{ chanllage.id }}" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button class="close" data-dismiss="modal">
-                            <span>×</span>
-                        </button>
-                    </div>
-                    <div class="modal-title">
-                        <h2 class="text-center">{{ chanllage.name }}</h2>
-                    </div>
-                    <div class="modal-body">
-                        <h4>Desc: {{ chanllage.describe }}</h4>
-                        <h4>Rank: {{ chanllage.rank }}</h4>
-                        {% if chanllage.file != '#' %}
-                        <h4>Down: <a href="{{ chanllage.file }}">Download</a></h4>
-                        {% end %}
-                        {% if len(chanllage.link) > 0 %}
-                        <h4>Link: <a href="{{ chanllage.link }}">Go</a></h4>
-                        {% end %}
-                        <hr>
-                        {% if chanllage not in completed %}
-                        <form action="/answer/{{ chanllage.name }}" method="post">
-                            Answer: <input size="25" type="text" name="answer" placeholder="">
-                            <input type="submit" value="Submit">
-                        </form>
-                        {% end %}
+        <div class="category-header col-md-12"><h3>{{ item }}</h3></div>
+        <div class="challenges-row col-md-12">
+            {% for chanllage in items[item] %}
+            <div class="col-md-3 d-inline-block">
+                <button data-toggle="modal" data-target="#{{ chanllage.id }}" class="btn {% if chanllage not in completed %}btn-dark{% else %}btn-success{% end %} challenge-button w-100 text-truncate pt-3 pb-3 mb-2">
+                    <p>{{ chanllage.name }}</p>
+                    <span>{{ chanllage.rank }}</span>
+                </button>
+            </div>
+            <div id="{{ chanllage.id }}" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button class="close" data-dismiss="modal">
+                                <span>×</span>
+                            </button>
+                        </div>
+                        <div class="modal-title">
+                            <h2 class="text-center">{{ chanllage.name }}</h2>
+                        </div>
+                        <div class="modal-body">
+                            <h4>Desc: {{ chanllage.describe }}</h4>
+                            <h4>Rank: {{ chanllage.rank }}</h4>
+                            {% if chanllage.file != '#' %}
+                            <h4>Down: <a href="{{ chanllage.file }}">Download</a></h4>
+                            {% end %}
+                            {% if len(chanllage.link) > 0 %}
+                            <h4>Link: <a href="{{ chanllage.link }}">Go</a></h4>
+                            {% end %}
+                            <hr>
+                            {% if chanllage not in completed %}
+                            <form action="/answer/{{ chanllage.name }}" method="post">
+                                Answer: <input size="25" type="text" name="answer" placeholder="">
+                                <input type="submit" value="Submit">
+                            </form>
+                            {% end %}
+                        </div>
                     </div>
                 </div>
             </div>
+            {% end %}
         </div>
-        {% end %}
     {% end %}
 {% end %}

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block body %}
-        <ul class="nav nav-list col-lg-2">
+        <ul class="nav nav-pills nav-stacked col-lg-2">
             <li {% if base.get('user') %}class="active"{% end %}><a href="/admin/user/"><i class="icon-white icon-home"></i>用户管理</a></li>
             <li {% if base.get('type') %}class="active"{% end %}><a href="/admin/type/"><i class="icon-white icon-home"></i>赛题类型管理</a></li>
             <li {% if base.get('chanllage_admin') %}class="active"{% end %}><a href="/admin/chanllage/"><i class="icon-white icon-home"></i>赛题管理</a></li>
-            <li {% if base.get('hint') %}class="active"{% end %}><a href="/admin/hint/"><i class="icon-white icon-home"></i>提示</a></li>
+            <li {% if base.get('admin_hint') %}class="active"{% end %}><a href="/admin/hint/"><i class="icon-white icon-home"></i>提示</a></li>
             <li {% if base.get('news') %}class="active"{% end %}><a href="/admin/news/"><i class="icon-white icon-home"></i>公告</a></li>
             <li {% if base.get('logs') %}class="active"{% end %}><a href="/admin/logs/"><i class="icon-white icon-home"></i>用户记录</a></li>
             <li {% if base.get('buylogs') %}class="active"{% end %}><a href="/admin/buylogs/"><i class="icon-white icon-home"></i>buy记录</a></li>

@@ -1,0 +1,21 @@
+{% extends 'user_base.html' %}
+
+{% block user %}
+<form class="form-group" action="/user/" method="post">
+    <div class="form-group">
+        <label for="">Username</label>
+        <input class="form-control" type="text" name="username" value="{{ current_user.username }}" readonly placeholder="">
+    </div>
+    <div class="form-group">
+        <label for="">email</label>
+        <input class="form-control" type="text" name="email"    value="{{ current_user.email }}" placeholder="">
+    </div>
+    <div class="form-group">
+        <label for="">Rank</label>
+        <input class="form-control" type="text" name="rank" readonly value="{{ current_user.rank }}" placeholder="">
+    </div>
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit">提交</button>
+    </div>
+</form>
+{% end %}

@@ -258,7 +258,7 @@ class AdminHintAction(RequestHandler):
         self.redirect('/admin/hint/')
 
     @authenticated_isadmin_async
-    async def post(self, action):
+    async def post(self, action, id=0):
         if action == 'add':
             payload = AddHintForm(self.request.arguments)
             if payload.validate():
@@ -303,7 +303,7 @@ class AdminNewsAction(RequestHandler):
         self.redirect('/admin/news/')
 
     @authenticated_isadmin_async
-    async def post(self, action):
+    async def post(self, action, message=''):
         if action == 'add':
             payload = AddNewsForm(self.request.arguments)
             if payload.validate():
@@ -393,7 +393,7 @@ class AdminTypeAction(RequestHandler):
             self.redirect('/admin/type')
 
     @authenticated_isadmin_async
-    async def post(self, action):
+    async def post(self, action, type_name=''):
         if action == 'add':
             payload = AddTypeForm(self.request.arguments)
             if payload.validate():
@@ -442,7 +442,7 @@ class AdminBuylog(RequestHandler):
         base_info = {'title': title,
                      'module': 'Admin Log',
                      'admin': True,
-                     'logs': True,
+                     'buylogs': True,
                      'isadmin': self.current_user.admin,
                      'username': self.current_user.username,
                      'logined': True}

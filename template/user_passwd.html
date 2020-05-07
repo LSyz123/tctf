@@ -1,0 +1,21 @@
+{% extends 'user_base.html' %}
+
+{% block user %}
+<form class="form-group" action="/user_passwd/" method="post">
+    <div class="form-group">
+        <label for="">Current: </label>
+        <input class="form-control" type="password" name="current_password" placeholder="">
+    </div>
+    <div class="form-group">
+        <label for="">New: </label>
+        <input class="form-control" type="password" name="new_password" placeholder="">
+    </div>
+    <div class="form-group">
+        <label for="">New_check: </label>
+        <input class="form-control" type="password" name="new_password_check" placeholder="">
+    </div>
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit">提交</button>
+    </div>
+</form>
+{% end %}

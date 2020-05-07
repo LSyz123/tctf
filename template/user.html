@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-
-{% block body %}
-    <h1>用户名: {{ user.username }}</h1>
-    <h1>邮箱: {{ user.email }}</h1>
-    <h1>管理员: {% if user.admin %}True{% else %}False{% end %}</h1>
-    <h1>分数: {{ user.rank }}</h1>
-{% end %}
