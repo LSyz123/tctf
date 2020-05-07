@@ -4,9 +4,9 @@
 <table class="table table-hover">
     <thead>
         <tr>
-            <th style="vertical-align: middle;text-align: center;">chanllage</th>
-            <th style="vertical-align: middle;text-align: center;">hint</th>
-            <th style="vertical-align: middle;text-align: center;">Action</th>
+            <th style="vertical-align: middle;text-align: center;">赛题</th>
+            <th style="vertical-align: middle;text-align: center;">提示</th>
+            <th style="vertical-align: middle;text-align: center;">购买</th>
         </tr>
     </thead>
     <tbody>
@@ -15,10 +15,10 @@
             <td style="vertical-align: middle;text-align: center;">{{ hint.chanllage.name }}</td>
             {% if hint in buyed %}
             <td style="vertical-align: middle;text-align: center;">{{ hint.message }}</td>
-            <td style="vertical-align: middle;text-align: center;">buyed</td>
+            <td style="vertical-align: middle;text-align: center;">已经购买</td>
             {% else %}
             <td style="vertical-align: middle;text-align: center;">Please buy it.</td>
-            <td style="vertical-align: middle;text-align: center;"><a href="/hint/buy/{{ hint.id }}">buy</a></td>
+            <td style="vertical-align: middle;text-align: center;"><a href="/hint/buy/{{ hint.id }}">购买</a></td>
             {% end %}
         </tr>
         {% end %}

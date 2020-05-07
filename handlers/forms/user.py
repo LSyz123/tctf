@@ -34,10 +34,10 @@ class UserInfoForm(Form):
 
 class PasswdForm(Form):
     current_password = PasswordField('current_password', validators=[
-        DataRequired(message='请输入密码')])
+        DataRequired(message='原始密码不能为空')])
     new_password = PasswordField('new_password', validators=[
-        DataRequired(message='请输入密码1'),
-        Length(min=4, max=50, message='Length')])
+        DataRequired(message='新密码不能为空'),
+        Length(min=4, max=50, message='密码长度不合格（4-50）')])
     new_password_check = PasswordField('new_password_check', validators=[
-        DataRequired(message='请输入密码2'),
-        EqualTo('new_password', message='not equal')])
+        DataRequired(message='新密码不能为空2'),
+        EqualTo('new_password', message='两次输入的新密码不相同')])

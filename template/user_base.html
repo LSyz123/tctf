@@ -2,10 +2,10 @@
 
 {% block body %}
     <ul class="nav nav-pills nav-stacked col-lg-2">
-        <li {% if base.get('userinfo') %}class="active"{% end %}><a href="/user/"><i class="icon-white icon-home"></i>User info</a></li>
-        <li {% if base.get('passwd') %}class="active"{% end %}><a href="/user_passwd/"><i class="icon-white icon-home"></i>Change password</a></li>
-        <li {% if base.get('buylog') %}class="active"{% end %}><a href="/log/buy/"><i class="icon-white icon-home"></i>buy log</a></li>
-        <li {% if base.get('answerlog') %}class="active"{% end %}><a href="/log/answer/"><i class="icon-white icon-home"></i>answer log</a></li>
+        <li {% if base.get('userinfo') %}class="active"{% end %}><a href="/user/"><i class="icon-white icon-home"></i>用户信息</a></li>
+        <li {% if base.get('passwd') %}class="active"{% end %}><a href="/user_passwd/"><i class="icon-white icon-home"></i>修改密码</a></li>
+        <li {% if base.get('buylog') %}class="active"{% end %}><a href="/log/buy/"><i class="icon-white icon-home"></i>购买提示记录</a></li>
+        <li {% if base.get('answerlog') %}class="active"{% end %}><a href="/log/answer/"><i class="icon-white icon-home"></i>提交答案记录</a></li>
     </ul>
 
     <div class="container col-lg-9">

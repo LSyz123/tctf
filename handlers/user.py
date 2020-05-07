@@ -113,9 +113,9 @@ class PasswdHandler(web.RequestHandler):
         payload = PasswdForm(self.request.arguments)
         if payload.validate():
             user = self.current_user
-            message = 'Success'
+            message = '修改密码成功'
             if not user.password.check_password(payload.current_password.data):
-                message = 'Wrong password!'
+                message = '修改密码失败'
             user.password = payload.new_password.data
             await self.application.objects.update(user)
             self.redirect('/message/{}'.format(message))
@@ -153,7 +153,7 @@ class UserlogHandler(web.RequestHandler):
                 logs.append(result)
             await self.render('user_answerlog.html', base=base_info, logs=logs)
         else:
-            self.redirect('/message/No such log type')
+            self.redirect('/message/没有这种类型的日志')
 
 
 class UserLogoutHandler(web.RequestHandler):

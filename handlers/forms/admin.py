@@ -88,13 +88,13 @@ class AddTypeForm(Form):
 
 class SystemForm(Form):
     name = StringField('name', validators=[
-        DataRequired(message='Need name')
+        DataRequired(message='系统名称不能为空')
     ])
     game_mode = BooleanField('game_mode')
     start = DateTimeField('start', validators=[
-        DataRequired(message='Need start')
+        DataRequired(message='比赛开始时间不能为空')
     ])
     end = DateTimeField('end', validators=[
-        DataRequired(message='Need end')
+        DataRequired(message='比赛结束时间不能为空')
     ])
 

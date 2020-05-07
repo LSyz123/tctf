@@ -6,7 +6,7 @@ from handlers.models.system import SystemModel
 async def started(self):
     result = {
         'status': False,
-        'error': 'Not started'
+        'error': '比赛未开始'
     }
 
     system = await self.application.objects.get(SystemModel)
@@ -17,6 +17,6 @@ async def started(self):
         if system.start < now < system.end:
             result['status'] = True
         elif now > system.end:
-            result['error'] = 'Game end!'
+            result['error'] = '比赛已经结束'
 
     return result

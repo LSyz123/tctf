@@ -50,10 +50,13 @@ def authenticated_isadmin_async(method):
                     if user.admin:
                         await method(self, *args, **kwargs)
                     else:
+                        self.clear_cookie('token')
                         self.redirect('/')
                 except UserModel.DoesNotExist as e:
+                    self.clear_cookie('token')
                     self.redirect('/')
             except jwt.ExpiredSignatureError as e:
+                self.clear_cookie('token')
                 self.redirect('/')
         else:
             self.redirect('/')

@@ -4,7 +4,6 @@ from handlers.message import MessageHandler
 from handlers.user import LoginHandler, RegisterHandler, UserInfoHandler, UserLogoutHandler, PasswdHandler, \
     UserlogHandler
 from handlers.rank import RankHandler
-from handlers.team import TeamHandler
 from handlers.admin import AdminUser, AdminChanllage, AdminHint, AdminNews, AdminSystem, AdminUserAction, \
     AdminChanllageAction, AdminNewsAction, AdminHintAction, AdminType, AdminTypeAction, AdminLog, AdminBuylog
 from handlers.chanllage import ChanllageHandler, AnswerHandler
