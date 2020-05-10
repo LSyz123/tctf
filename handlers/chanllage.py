@@ -80,7 +80,7 @@ class AnswerHandler(RequestHandler):
                                                        event='Corrent')
                 except RanklogModel.DoesNotExist:
                     if payload.answer.data == chanllage.answer:
-                        event = 'Correct'
+                        event = 'Corrent'
                         rank = chanllage.rank
                         if chanllage.rank > chanllage.low and chanllage.people == 0:
                             rank = chanllage.low
