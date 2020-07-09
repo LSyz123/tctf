@@ -13,7 +13,7 @@
         {% for hint in hints %}
         <tr>
             <td style="vertical-align: middle;text-align: center;">{{ hint.chanllage.name }}</td>
-            {% if hint in buyed %}
+            {% if hint.message in buyed %}
             <td style="vertical-align: middle;text-align: center;">{{ hint.message }}</td>
             <td style="vertical-align: middle;text-align: center;">已经购买</td>
             {% else %}

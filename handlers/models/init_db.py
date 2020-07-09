@@ -1,3 +1,5 @@
+import random
+
 from handlers.models.buylog import BuylogModel
 from setting import db
 from handlers.models.user import UserModel

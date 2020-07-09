@@ -418,12 +418,10 @@ class AdminLog(RequestHandler):
                      'logined': True}
 
         logs = []
-        query = RanklogModel.select(RanklogModel, UserModel, ChanllageModel). \
-            join(UserModel).switch(RanklogModel). \
-            join(ChanllageModel).switch(RanklogModel)
+        query = RanklogModel.select()
         results = await self.application.objects.execute(query)
         for result in results:
-            logs.append([result.user.username, result.chanllage.name,
+            logs.append([result.user, result.chanllage,
                          result.event, result.answer,
                          result.uptime, result.rank])
 
@@ -433,11 +431,8 @@ class AdminLog(RequestHandler):
 class AdminBuylog(RequestHandler):
     @authenticated_isadmin_async
     async def get(self):
-        query = BuylogModel.select(BuylogModel, HintModel, UserModel) \
-            .join(HintModel).switch(BuylogModel) \
-            .join(UserModel).switch(UserModel)
+        query = BuylogModel.select()
         logs = await self.application.objects.execute(query)
-
         title = await get_title(self)
         base_info = {'title': title,
                      'module': 'Admin Log',

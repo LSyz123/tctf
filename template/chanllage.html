@@ -104,7 +104,7 @@
         <div class="challenges-row col-md-12">
             {% for chanllage in items[item] %}
             <div class="col-md-3 d-inline-block">
-                <button data-toggle="modal" data-target="#{{ chanllage.id }}" class="btn {% if chanllage not in completed %}btn-dark{% else %}btn-success{% end %} challenge-button w-100 text-truncate pt-3 pb-3 mb-2">
+                <button data-toggle="modal" data-target="#{{ chanllage.id }}" class="btn {% if chanllage.id not in completed %}btn-dark{% else %}btn-success{% end %} challenge-button w-100 text-truncate pt-3 pb-3 mb-2">
                     <p>{{ chanllage.name }}</p>
                     <span>{{ chanllage.rank }}</span>
                 </button>

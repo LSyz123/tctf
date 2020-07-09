@@ -4,13 +4,10 @@ from handlers.models.base import BaseModel
 
 from peewee import *
 
-from handlers.models.hint import HintModel
-from handlers.models.user import UserModel
-
 
 class BuylogModel(BaseModel):
-    user = ForeignKeyField(UserModel, verbose_name='User')
-    hint = ForeignKeyField(HintModel, verbose_name='Hint')
+    user = CharField(max_length=50, verbose_name='User')
+    hint = TextField(verbose_name='提示信息')
     time = DateTimeField(verbose_name='Buy time', default=datetime.now())
     rank = IntegerField(verbose_name='Rank')
 

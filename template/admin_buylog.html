@@ -13,8 +13,8 @@
         <tbody>
             {% for log in logs %}
             <tr>
-                <td style="vertical-align: middle;text-align: center;">{{ log.user.username }}</td>
-                <td style="vertical-align: middle;text-align: center;">{{ log.hint.message }}</td>
+                <td style="vertical-align: middle;text-align: center;">{{ log.user }}</td>
+                <td style="vertical-align: middle;text-align: center;">{{ log.hint }}</td>
                 <td style="vertical-align: middle;text-align: center;">{{ log.time }}</td>
                 <td style="vertical-align: middle;text-align: center;">{{ log.rank }}</td>
             </tr>

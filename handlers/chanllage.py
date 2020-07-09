@@ -35,12 +35,10 @@ class ChanllageHandler(RequestHandler):
             chanllages.append(result)
 
         completed = []
-        query = RanklogModel.select(RanklogModel, ChanllageModel)\
-            .where(RanklogModel.user==self.current_user and RanklogModel.event=='Corrent')\
-            .join(ChanllageModel).switch(RanklogModel)
+        query = RanklogModel.filter(RanklogModel.user==self.current_user)
         results = await self.application.objects.execute(query)
         for result in results:
-            completed.append(result.chanllage)
+            completed.append(result.chanllage_id)
 
         items = {}
         keys = []
@@ -75,7 +73,7 @@ class AnswerHandler(RequestHandler):
             payload = AnswerForm(self.request.arguments)
             if payload.validate():
                 try:
-                    await self.application.objects.get(RanklogModel, user_id=self.current_user.id,
+                    await self.application.objects.get(RanklogModel, user=self.current_user.username,
                                                        chanllage_id=chanllage.id,
                                                        event='Corrent')
                 except RanklogModel.DoesNotExist:
@@ -94,7 +92,8 @@ class AnswerHandler(RequestHandler):
                         async with self.application.objects.atomic():
                             await self.application.objects.update(chanllage)
                             await self.application.objects.update(self.current_user)
-                            await self.application.objects.create(RanklogModel, chanllage=chanllage,
+                            await self.application.objects.create(RanklogModel, chanllage_id=chanllage.id,
+                                                                  chanllage=chanllage.name,
                                                                   user=self.current_user, event=event,
                                                                   answer=payload.answer.data, rank=rank)
                     else:

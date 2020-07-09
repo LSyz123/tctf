@@ -31,9 +31,7 @@ class HintHandler(RequestHandler):
         for result in results:
             hints.append(result)
 
-        query = BuylogModel.select(BuylogModel, UserModel, HintModel).where(BuylogModel.user == self.current_user) \
-            .join(UserModel).switch(BuylogModel) \
-            .join(HintModel).switch(BuylogModel)
+        query = BuylogModel.filter(BuylogModel.user == self.current_user.username)
         results = await self.application.objects.execute(query)
         buyed = []
         for result in results:
@@ -49,8 +47,8 @@ class HintBuyHandler(RequestHandler):
             self.current_user.rank -= abs(hint.sub_rank)
             async with self.application.objects.atomic():
                 await self.application.objects.update(self.current_user)
-                await self.application.objects.create(BuylogModel, user=self.current_user,
-                                                      hint=hint, rank=hint.sub_rank)
+                await self.application.objects.create(BuylogModel, user=self.current_user.username,
+                                                      hint=hint.message, rank=hint.sub_rank)
         except HintModel.DoesNotExist:
             self.redirect('/message/No such hint!')
 

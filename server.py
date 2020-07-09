@@ -21,10 +21,12 @@ if __name__ == '__main__':
         **settings
     )
 
-    app.listen(options.port)
-
     objects = peewee_async.Manager(db)
     db.set_allow_sync(False)
     app.objects = objects
 
-    tornado.ioloop.IOLoop.current().start()
+    http_server = tornado.httpserver.HTTPServer(app)
+    http_server.bind(options.port)
+    http_server.start(4)
+
+    tornado.ioloop.IOLoop.instance().start()
