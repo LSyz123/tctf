@@ -9,4 +9,4 @@ settings = {
     'UPLOAD_BASE': os.path.join(os.path.dirname(__file__), "static/uploads/"),
 }
 
-db = peewee_async.MySQLDatabase('CTF', host='127.0.0.1', port=3306, user='root', password='WhoAmI123', charset='utf8')
+db = peewee_async.MySQLDatabase('CTF', host='127.0.0.1', port=3306, user='root', password='***', charset='utf8')
